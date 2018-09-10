@@ -15,17 +15,20 @@
             padding: 5px;
             font-family: 'Work Sans', sans-serif;
         }
-        .title{
+
+        .title {
             width: 125px;
             margin: 0;
             display: flex;
             font-size: 1rem;
         }
-        .container{
+
+        .container {
             width: 175px;
             margin: 0;
 
         }
+
         .input-range[type="range"] {
             -webkit-appearance: none;
             appearance: none;
@@ -34,9 +37,12 @@
             width: 100%;
             border-radius: 6px;
         }
-        .input-range[type="range"]:focus, .input-range[type="range"]:active {
+
+        .input-range[type="range"]:focus,
+        .input-range[type="range"]:active {
             outline: none;
         }
+
         .input-range[type="range"]::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
@@ -50,6 +56,7 @@
             border-radius: 50%;
             -webkit-border-radius: 50%;
         }
+
         .btn {
             padding: 6px 17px;
             letter-spacing: 1px;
@@ -62,83 +69,94 @@
             background-color: #fff;
             font-size: 13px;
         }
+
         .btn:focus,
-        .btn:hover{
-        font-weight: 400;
-        color: #ffffff;
-        border-color: #59a5fb;
-        background: #59a5fb;
-        text-decoration: none;
-        outline: none;
+        .btn:hover {
+            font-weight: 400;
+            color: #ffffff;
+            border-color: #59a5fb;
+            background: #59a5fb;
+            text-decoration: none;
+            outline: none;
         }
+
         /* The switch - the box around the slider */
         .switch {
-        position: relative;
-        display: inline-block;
-        width: 50px;
-        height: 24px;
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
         }
-        .switch input {display:none;}
+
+        .switch input {
+            display: none;
+        }
+
         /* The slider */
         .slider {
-        position: absolute;
-        cursor: pointer;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: #ccc;
-        -webkit-transition: .4s;
-        transition: .4s;
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            -webkit-transition: .4s;
+            transition: .4s;
         }
 
         .slider:before {
-        position: absolute;
-        content: "";
-        height: 20px;
-        width: 20px;
-        left: 4px;
-        bottom: 2px;
-        background-color: white;
-        -webkit-transition: .4s;
-        transition: .4s;
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 4px;
+            bottom: 2px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
         }
 
-        input:checked + .slider {
-        background-color: #59a5fb;
+        input:checked+.slider {
+            background-color: #59a5fb;
         }
 
-        input:focus + .slider {
-        box-shadow: 0 0 1px #59a5fb;
+        input:focus+.slider {
+            box-shadow: 0 0 1px #59a5fb;
         }
 
-        input:checked + .slider:before {
-        -webkit-transform: translateX(20px);
-        -ms-transform: translateX(20px);
-        transform: translateX(20px);
+        input:checked+.slider:before {
+            -webkit-transform: translateX(20px);
+            -ms-transform: translateX(20px);
+            transform: translateX(20px);
         }
+
         /* Rounded sliders */
         .slider.round {
-        border-radius: 34px;
+            border-radius: 34px;
         }
 
         .slider.round:before {
-        border-radius: 50%;
+            border-radius: 50%;
         }
+
         .head {
             margin: 0;
             padding: 0;
             font-size: 1rem;
         }
-        .document{
-            margin: 0 30px 0  10px;
+
+        .document {
+            margin: 0 30px 0 10px;
         }
-        .context{
+
+        .context {
             display: flex;
             margin-top: 3px;
             margin-right: 10px;
         }
-        .switch{
+
+        .switch {
             margin-top: 1px;
         }
     </style>
@@ -155,35 +173,35 @@
             <div id="onoff">ON</div>
         </div>
         <label class="switch">
-            <input type="checkbox" id="status" checked>
+            <input type="checkbox" id="status">
             <span class="slider round"></span>
         </label>
     </div>
     <div class="slidecontainer">
         <div class="title">
             min length:
-            <div id="value1">3</div>
+            <div id="min_text"></div>
         </div>
         <div class="container">
-            <input type="range" id="range1" class="input-range" min="0" max="100" step="1" value="3">
+            <input type="range" id="min_value" class="input-range" min="0" max="100" value="0">
         </div>
     </div>
     <div class="slidecontainer">
         <div class="title">
             max length:
-            <div id="value2">10</div>
+            <div id="max_text"></div>
         </div>
         <div class="container">
-            <input type="range" id="range2" class="input-range" value="10" min="0" max="200">
+            <input type="range" id="max_value" class="input-range" min="0" max="200" value="0">
         </div>
     </div>
     <div class="slidecontainer">
         <div class="title">
-            waiting time:
-            <div id="value3">4</div>
+            waiting sec:
+            <div id="time_text"></div>
         </div>
         <div class="container">
-            <input type="range" id="range3" class="input-range" value="4" min="0" max="20">
+            <input type="range" id="time_value" class="input-range" min="0" max="10" step="0.1" value="0">
         </div>
     </div>
 </body>

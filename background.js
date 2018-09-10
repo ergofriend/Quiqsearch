@@ -4,13 +4,14 @@
 //Wait for some one connect to it
 let contentPort;
 chrome.runtime.onConnect.addListener(function(portFrom) {
+  console.log("load background.js");
   if (portFrom.name === "background-content") {
     //This is how you add listener to a port.
     portFrom.onMessage.addListener(function(message) {
       //Do something to duck
-      console.log(message.keyword);
+      const str = message.keyword;
       window.open(
-        "https://www.google.com/search?q=" + encodeURI(message.keyword),
+        "https://www.google.com/search?q=" + encodeURI(str),
         "_blank"
       );
     });

@@ -28,9 +28,25 @@ window.addEventListener(
     if (event.data.keyword) {
       //Remove this listener, but you can keep it depend on your case
       //window.removeEventListener("message", receiveDuck, false);
-      contentPort.postMessage({
-        type: "keyword",
-        keyword: event.data.keyword
+      const str = event.data.keyword;
+      const leng = str.length;
+      chrome.storage.sync.get(["min", "max", "time", "status"], function(
+        result
+      ) {
+        if (result.status) {
+          if (result.min <= leng && leng <= result.max) {
+            let old = str;
+            setTimeout(function() {
+              if (old == window.getSelection().toString()) {
+                // send message to background.js
+                contentPort.postMessage({
+                  type: "keyword",
+                  keyword: str
+                });
+              }
+            }, result.time * 1000); //ignition_time秒後
+          }
+        }
       });
     }
   },
