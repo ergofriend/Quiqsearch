@@ -3,7 +3,7 @@
   "name": "Quiqserch",
   "author": "ErgoFriend",
   "description": "Auto search word you selected.",
-  "version": "0.1",
+  "version": "0.1.0.0",
   "icons": {
     "16": "images/icon-16x16.png",
     "48": "images/icon-48x48.png",
@@ -21,8 +21,5 @@
       "js": ["contentscript.js"]
     }
   ],
-  "permissions": ["activeTab", "storage"],
-  "background": {
-    "scripts": ["background.js"]
-  }
+  "permissions": ["activeTab", "storage"]
 }

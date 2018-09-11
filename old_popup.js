@@ -2,6 +2,12 @@ let docs = function() {
   window.open("https://github.com/ErgoFriend/Quiqsearch", "_blank");
 };
 
+let setValue = function(value, out_text, out_value) {
+  console.log("set value:", value, "change", out_text.id, "&", out_value.id);
+  out_value.value = value;
+  out_text.innerHTML = value;
+};
+
 let init = function() {
   return new Promise((resolve, reject) => {
     chrome.storage.sync.get(["initialed"], function(value) {
@@ -12,6 +18,8 @@ let init = function() {
         saveValue({ id: "max_value", value: 20 });
         saveValue({ id: "time_value", value: 1.5 });
         saveValue({ id: "status", value: 1, checked: true });
+        saveValue({ id: "inputtextarea", value: 1, checked: true });
+        saveValue({ id: "youtube", value: 1, checked: false });
         resolve("false");
       } else {
         console.log("first init had been finished.");
@@ -25,7 +33,7 @@ let saveValue = function(elem) {
   console.log(elem.value, "is set to ", elem.id);
   switch (elem.id) {
     case "min_value":
-      chrome.storage.sync.set({ min: elem.value }, function() {});
+      chrome.storage.sync.set({ min: Number(elem.value) }, function() {});
       break;
     case "max_value":
       chrome.storage.sync.set({ max: Number(elem.value) }, function() {});
@@ -41,13 +49,30 @@ let saveValue = function(elem) {
   }
 };
 
-let setValue = function(value, out_text, out_value) {
-  console.log("set value:", value, "change", out_text.id, "+", out_value.id);
-  out_value.value = value;
-  out_text.innerHTML = value;
+let aaa = function(event) {
+  const num = event.currentTarget.value;
+  switch (event.currentTarget.id) {
+    case "min_value":
+      chrome.storage.sync.set({ min: Number(num) }, function() {});
+      break;
+    case "max_value":
+      chrome.storage.sync.set({ max: Number(num) }, function() {});
+      break;
+    case "time_value":
+      chrome.storage.sync.set({ time: Number(num) }, function() {});
+      break;
+    case "status":
+      chrome.storage.sync.set(
+        { status: event.currentTarget.checked },
+        function() {}
+      );
+      break;
+    default:
+      console.log("Invaild aaa case error");
+  }
+  console.log(event.currentTarget.id);
+  console.log(num);
 };
-
-let dualValue;
 
 document.addEventListener("DOMContentLoaded", () => {
   let target1 = document.getElementById("min_text");
@@ -83,21 +108,43 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       });
     })
-    .then(function() {
-      console.log("addEnventListener");
-      chrome.storage.sync.get(["min", "max", "time", "status"], function(
-        value
-      ) {
-        // changing storage value from input acction
-        elem1.addEventListener("input", dualValue(elem1));
-        elem2.addEventListener("input", dualValue(elem2));
-        elem3.addEventListener("input", dualValue(elem3));
-        elem4.addEventListener("input", dualValue(elem4));
-      });
-    })
     .catch(function(error) {
       console.log(error);
     });
+
+  // changing storage value from input acction
+  elem1.addEventListener("input", aaa);
+  elem2.addEventListener("input", aaa);
+  elem3.addEventListener("input", aaa);
+  elem4.addEventListener("input", aaa);
+
+  // changing DOM value from listen changed storage
+  chrome.storage.onChanged.addListener(function(changes, namespace) {
+    for (key in changes) {
+      let storageChange = changes[key];
+      let num = storageChange.newValue;
+      switch (key) {
+        case "min":
+          setValue(num, target1, elem1);
+          console.log("min changed to", num);
+          break;
+        case "max":
+          setValue(num, target2, elem2);
+          console.log("max changed to", num);
+          break;
+        case "time":
+          setValue(num, target3, elem3);
+          console.log("time changed to", num);
+          break;
+        case "status":
+          document.getElementById("status").checked = storageChange.newValue;
+          console.log("status changed to", storageChange.newValue);
+          break;
+        default:
+          console.log("Invaild onChanged case error");
+      }
+    }
+  });
 
   // go to GitHub bage
   document.querySelector("button").addEventListener("click", docs);

@@ -6,21 +6,21 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Quiqserch</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://fonts.googleapis.com/css?family=Work+Sans" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
     <style>
         .slidecontainer {
             display: flex;
             width: 300px;
             margin: auto 0;
             padding: 5px;
-            font-family: 'Work Sans', sans-serif;
+            font-family: 'Roboto Mono', monospace;
         }
 
         .title {
             width: 125px;
             margin: 0;
             display: flex;
-            font-size: 1rem;
+            font-size: 0.86rem;
         }
 
         .container {
@@ -110,7 +110,7 @@
             content: "";
             height: 20px;
             width: 20px;
-            left: 4px;
+            left: 6px;
             bottom: 2px;
             background-color: white;
             -webkit-transition: .4s;
@@ -141,9 +141,9 @@
         }
 
         .head {
-            margin: 0;
+            margin: 5px 0 4px 0;
             padding: 0;
-            font-size: 1rem;
+            font-size: 0.9rem;
         }
 
         .document {
@@ -159,6 +159,89 @@
         .switch {
             margin-top: 1px;
         }
+
+        .cbx {
+            margin: auto;
+            -webkit-user-select: none;
+            user-select: none;
+            cursor: pointer;
+        }
+
+        .cbx span {
+            display: inline-block;
+            font-size: 0.8rem;
+            width: 250px;
+            vertical-align: middle;
+            transform: translate3d(0, 0, 0);
+        }
+
+        .cbx span:first-child {
+            position: relative;
+            width: 18px;
+            height: 18px;
+            border-radius: 3px;
+            transform: scale(1);
+            vertical-align: middle;
+            border: 1px solid #9098A9;
+            transition: all 0.2s ease;
+        }
+
+        .cbx span:first-child svg {
+            position: absolute;
+            top: 3px;
+            left: 2px;
+            fill: none;
+            stroke: #FFFFFF;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-dasharray: 16px;
+            stroke-dashoffset: 16px;
+            transition: all 0.3s ease;
+            transition-delay: 0.1s;
+            transform: translate3d(0, 0, 0);
+        }
+
+        .cbx span:first-child:before {
+            content: "";
+            width: 100%;
+            height: 100%;
+            background: #59a5fb;
+            display: block;
+            transform: scale(0);
+            opacity: 1;
+            border-radius: 50%;
+        }
+
+        .cbx span:last-child {
+            padding-left: 8px;
+        }
+
+        .cbx:hover span:first-child {
+            border-color: #59a5fb;
+        }
+
+        .inp-cbx:checked+.cbx span:first-child {
+            background: #59a5fb;
+            border-color: #59a5fb;
+            animation: wave 0.4s ease;
+        }
+
+        .inp-cbx:checked+.cbx span:first-child svg {
+            stroke-dashoffset: 0;
+        }
+
+        .inp-cbx:checked+.cbx span:first-child:before {
+            transform: scale(2);
+            opacity: 0;
+            transition: all 0.6s ease;
+        }
+
+        @keyframes wave {
+            50% {
+                transform: scale(0.9);
+            }
+        }
     </style>
     <script src="popup.js"></script>
 </head>
@@ -169,8 +252,8 @@
             <button id="doc" class="btn btn-mod btn-border btn-circle btn-small">GitHub</button>
         </div>
         <div class="context">
-            <div class="quiqserch">Quiqserch :</div>
-            <div id="onoff">ON</div>
+            <div class="quiqserch">Quiqserch:</div>
+            <div id="onoff">OFF</div>
         </div>
         <label class="switch">
             <input type="checkbox" id="status">
@@ -203,6 +286,20 @@
         <div class="container">
             <input type="range" id="time_value" class="input-range" min="0" max="10" step="0.1" value="0">
         </div>
+    </div>
+    <div class="slidecontainer">
+        <input class="inp-cbx" id="inputtextarea" type="checkbox" style="display: none;" />
+        <label class="cbx" for="inputtextarea"><span>
+                <svg width="12px" height="10px" viewbox="0 0 10 10">
+                    <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
+                </svg></span><span>Invaild input&textarea</span></label>
+    </div>
+    <div class="slidecontainer">
+        <input class="inp-cbx" id="youtube" type="checkbox" style="display: none;" />
+        <label class="cbx" for="youtube"><span>
+                <svg width="12px" height="10px" viewbox="0 0 10 10">
+                    <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
+                </svg></span><span>Search videos on the YouTube</span></label>
     </div>
 </body>
 
