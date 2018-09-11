@@ -5,7 +5,7 @@ A chrome extention. Auto searching word you selected.
 
 [chrome web store](https://chrome.google.com/webstore/detail/quiqserch/aemnbkipehpanmmiicmofabkfllcmajj)
 
-[chrome web store 日本語](https://chrome.google.com/webstore/detail/aemnbkipehpanmmiicmofabkfllcmajj/publish-accepted?hl=ja)
+[chrome web store 日本語](https://chrome.google.com/webstore/detail/quiqserch/aemnbkipehpanmmiicmofabkfllcmajj?hl=ja)
 
 ## License
 MIT
