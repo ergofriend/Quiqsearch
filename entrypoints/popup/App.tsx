@@ -3,6 +3,12 @@ import reactLogo from '@/assets/react.svg';
 import wxtLogo from '/wxt.svg';
 import './App.css';
 
+const handleOpenOptionsPage = () => {
+  browser.runtime.openOptionsPage().catch((error) => {
+    console.error(`Failed to open options page: ${error}`);
+  })
+}
+
 function App() {
   const [count, setCount] = useState(0);
 
@@ -28,6 +34,9 @@ function App() {
       <p className="read-the-docs">
         Click on the WXT and React logos to learn more
       </p>
+      <button onClick={handleOpenOptionsPage}>
+        Open options page
+      </button>
     </>
   );
 }
