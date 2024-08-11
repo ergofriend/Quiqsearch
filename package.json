@@ -14,7 +14,7 @@
 		"compile": "tsc --noEmit",
 		"postinstall": "wxt prepare",
 		"check": "biome check --write .",
-    "ci": "biome ci"
+		"ci": "biome ci"
 	},
 	"dependencies": {
 		"react": "^18.3.1",

@@ -1,16 +1,16 @@
-import reactLogo from "@/assets/react.svg";
-import { useState } from "react";
-import wxtLogo from "/wxt.svg";
-import "./App.css";
+import reactLogo from "@/assets/react.svg"
+import { useState } from "react"
+import wxtLogo from "/wxt.svg"
+import "./App.css"
 
 const handleOpenOptionsPage = () => {
 	browser.runtime.openOptionsPage().catch((error) => {
-		console.error(`Failed to open options page: ${error}`);
-	});
-};
+		console.error(`Failed to open options page: ${error}`)
+	})
+}
 
 function App() {
-	const [count, setCount] = useState(0);
+	const [count, setCount] = useState(0)
 
 	return (
 		<>
@@ -38,7 +38,7 @@ function App() {
 				Open options page
 			</button>
 		</>
-	);
+	)
 }
 
-export default App;
+export default App

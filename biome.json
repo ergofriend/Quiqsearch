@@ -11,5 +11,10 @@
 	},
 	"files": {
 		"ignore": [".output/**/*", ".wxt/**/*"]
+	},
+	"javascript": {
+		"formatter": {
+			"semicolons": "asNeeded"
+		}
 	}
 }
