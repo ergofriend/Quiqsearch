@@ -1,4 +1,5 @@
 import reactLogo from "@/assets/react.svg"
+import "../../assets/tailwind.css" // XXX: no alias import
 import { useState } from "react"
 import wxtLogo from "/wxt.svg"
 import "./App.css"

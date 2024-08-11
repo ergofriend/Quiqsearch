@@ -1,7 +1,10 @@
+import "../../assets/tailwind.css" // XXX: no alias import
+
 function App() {
 	return (
 		<div>
-			<p>detail page</p>
+			<h1 className="text-3xl font-bold underline">Hello world!</h1>
+			<p className="text-blue-600">detail page</p>
 		</div>
 	)
 }
