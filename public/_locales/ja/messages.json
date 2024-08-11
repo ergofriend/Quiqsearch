@@ -1,0 +1,11 @@
+{
+	"app_title": {
+		"message": "Quiqsearch"
+	},
+	"app_description": {
+		"message": "選択範囲をすばやく検索"
+	},
+	"detail_settings": {
+		"message": "詳細設定"
+	}
+}

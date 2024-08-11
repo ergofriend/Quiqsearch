@@ -35,7 +35,7 @@ function App() {
 				Click on the WXT and React logos to learn more
 			</p>
 			<button type="button" onClick={handleOpenOptionsPage}>
-				Open options page
+				{browser.i18n.getMessage("detail_settings")}
 			</button>
 		</>
 	)

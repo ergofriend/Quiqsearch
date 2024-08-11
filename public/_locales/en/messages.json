@@ -1,0 +1,11 @@
+{
+	"app_title": {
+		"message": "Quiqsearch"
+	},
+	"app_description": {
+		"message": "Quickly search for a selection."
+	},
+	"detail_settings": {
+		"message": "Advanced Settings"
+	}
+}
