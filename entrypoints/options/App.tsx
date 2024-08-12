@@ -1,10 +1,11 @@
+import { BasicSettings } from "@/components/organisms/basic-settings"
 import "../../assets/tailwind.css" // XXX: no alias import
 
 function App() {
 	return (
-		<div>
-			<h1 className="text-3xl font-bold underline">Hello world!</h1>
-			<p className="text-blue-600">detail page</p>
+		<div className="flex flex-col gap-4">
+			<h1 className="text-3xl">{browser.i18n.getMessage("detail_settings")}</h1>
+			<BasicSettings />
 		</div>
 	)
 }
