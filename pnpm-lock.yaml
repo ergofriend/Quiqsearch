@@ -34,6 +34,9 @@ devDependencies:
   postcss:
     specifier: 8.4.41
     version: 8.4.41
+  rippleui:
+    specifier: 1.12.1
+    version: 1.12.1
   tailwindcss:
     specifier: 3.4.9
     version: 3.4.9
@@ -1109,6 +1112,12 @@ packages:
     resolution: {integrity: sha512-bm6EG6/pCpkxDf/0gDNDdtDILMOHgaQBVOJGdwsqClnxA3xL6jtMv76rLBc006RVMWbmaf0xbmom4Z/5o2nRkQ==}
     dependencies:
       undici-types: 6.13.0
+    dev: true
+
+  /@types/postcss-js@4.0.4:
+    resolution: {integrity: sha512-j5+GMZVIPCJpRTwI/mO64mCzv7X+zAEq3JP0EV2lo/BrLWHAohEubUJimIAY23rH27+wKce0fXUYjAdBoqlaYw==}
+    dependencies:
+      postcss: 8.4.41
     dev: true
 
   /@types/prop-types@15.7.12:
@@ -3689,6 +3698,17 @@ packages:
       glob: 6.0.4
     dev: true
     optional: true
+
+  /rippleui@1.12.1:
+    resolution: {integrity: sha512-2LLqGQy0Gb+V/XHC+Ucx7rKcgisTr1HBevVc+NiwTiJn4y38Ya1cad8I/ZZHfWbrvKG/bPKYh+XJCM8M4cUs0A==}
+    dependencies:
+      '@types/postcss-js': 4.0.4
+      postcss: 8.4.41
+      postcss-js: 4.0.1(postcss@8.4.41)
+      tailwindcss: 3.4.9
+    transitivePeerDependencies:
+      - ts-node
+    dev: true
 
   /rollup@4.20.0:
     resolution: {integrity: sha512-6rbWBChcnSGzIlXeIdNIZTopKYad8ZG8ajhl78lGRLsI2rX8IkaotQhVas2Ma+GPxJav19wrSzvRvuiv0YKzWw==}
