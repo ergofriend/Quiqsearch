@@ -3,7 +3,6 @@ import "../../assets/tailwind.css" // XXX: no alias import
 import { useState } from "react"
 import wxtLogo from "/wxt.svg"
 import "./App.css"
-import { Button } from "react-daisyui"
 
 const handleOpenOptionsPage = () => {
 	browser.runtime.openOptionsPage().catch((error) => {
@@ -36,9 +35,9 @@ function App() {
 			<p className="read-the-docs">
 				Click on the WXT and React logos to learn more
 			</p>
-			<Button color="primary" size="sm" onClick={handleOpenOptionsPage}>
+			<button type="button" onClick={handleOpenOptionsPage}>
 				{browser.i18n.getMessage("detail_settings")}
-			</Button>
+			</button>
 		</>
 	)
 }
