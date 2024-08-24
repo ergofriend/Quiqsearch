@@ -8,5 +8,11 @@ export default defineConfig({
 		description: "__MSG_app_description__",
 		default_locale: "en",
 		permissions: ["storage"],
+		commands: {
+			manual: {
+				description: "__MSG_manual_command_description__",
+				suggested_key: { default: "Ctrl+P", mac: "Command+P" },
+			},
+		},
 	},
 })

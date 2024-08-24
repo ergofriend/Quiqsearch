@@ -10,5 +10,8 @@
 	},
 	"extension_switch": {
 		"message": "Enable Extension"
+	},
+	"manual_command_description": {
+		"message": "Enter a command to search for."
 	}
 }

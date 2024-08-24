@@ -10,5 +10,8 @@
 	},
 	"extension_switch": {
 		"message": "拡張機能を有効にする"
+	},
+	"manual_command_description": {
+		"message": "コマンドを入力して選択範囲を検索"
 	}
 }

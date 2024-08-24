@@ -1,19 +1,16 @@
 import { logger } from "@/libs/logger"
-import { extensionFeatureState } from "@/libs/storage"
+import { executeSearch } from "@/libs/search"
+import { extensionFeatureState, extensionModeState } from "@/libs/storage"
 import { debounce } from "es-toolkit"
-
-const searchWithGoogle = (keyword: string) => {
-	const url = new URL("https://www.google.com/search")
-	url.searchParams.set("q", keyword)
-	window.open(url.toString(), "_blank")
-	console.info("searchWithGoogle:", keyword)
-}
 
 const handleSelectionChange = (event: string, c: AbortController) => {
 	const debounceMs = 2000
 	const debouncedWithSignalFunction = debounce(
 		(text: string) => {
-			searchWithGoogle(text)
+			extensionModeState.storage.getValue().then((mode) => {
+				if (mode !== "auto") return
+				executeSearch(window.location.href, text)
+			})
 		},
 		debounceMs,
 		{ signal: c.signal },
@@ -24,6 +21,7 @@ const handleSelectionChange = (event: string, c: AbortController) => {
 		logger.debug(event, "handleSelectionChange:", selection)
 		if (!selection) return
 		debouncedWithSignalFunction(selection)
+		browser.runtime.sendMessage(selection)
 	}
 }
 
