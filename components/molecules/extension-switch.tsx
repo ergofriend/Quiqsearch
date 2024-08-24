@@ -1,7 +1,8 @@
+import { extensionFeatureState } from "@/libs/storage"
 import { useStorageState } from "@/libs/useStorageState"
 
 export const ExtensionSwitch = () => {
-	const state = useStorageState<boolean>("sync:enabled", true)
+	const state = useStorageState(extensionFeatureState)
 	return (
 		<div className="select-none">
 			<label htmlFor="extension-switch">

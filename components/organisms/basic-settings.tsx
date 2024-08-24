@@ -10,9 +10,8 @@ export const BasicSettings = () => {
 			{/* TODO: GitHub repo link */}
 			<ExtensionSwitch />
 			<div className="flex flex-col gap-3">
-				{/* TODO: mode(manual/auto) */}
-				<ManualModeSwitch />
 				<AutoModeSwitch />
+				<ManualModeSwitch />
 			</div>
 		</div>
 	)

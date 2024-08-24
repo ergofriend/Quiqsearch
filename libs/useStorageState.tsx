@@ -1,33 +1,32 @@
-import type { StorageItemKey } from "wxt/storage"
 import { logger } from "./logger"
+import type { WxtStorageItemWithKey } from "./storage"
 
 export const useStorageState = <T,>(
-	storageKey: StorageItemKey,
-	defaultState: T,
+	storageState: WxtStorageItemWithKey<T>,
+	defaultState = storageState.storage.fallback,
 ) => {
 	const [isInitialized, setIsInitialized] = useState(false)
-
 	const [state, setState] = useState<T>(defaultState)
 
 	useEffect(() => {
 		const init = async () => {
-			const _state = await storage.getItem<T>(storageKey)
-			setState(_state ?? defaultState)
+			const _state = await storageState.storage.getValue()
+			setState(_state)
 			setIsInitialized(true)
-			logger.log(storageKey, ":init:", _state)
+			logger.log(storageState.key, ":init:", _state)
 		}
 		init()
 
-		const unwatch = storage.watch<T>(storageKey, (_state) => {
+		const unwatch = storageState.storage.watch((_state) => {
 			setState(_state ?? defaultState)
-			logger.log(storageKey, ":synced:", _state)
+			logger.log(storageState.key, ":synced:", _state)
 		})
 		return () => unwatch()
 	}, [setIsInitialized, setState])
 
 	const onChangeState = useCallback((_state: T) => {
-		logger.log(storageKey, ":changed:", _state)
-		storage.setItem(storageKey, _state)
+		logger.log(storageState.key, ":changed:", _state)
+		storageState.storage.setValue(_state)
 	}, [])
 
 	return {

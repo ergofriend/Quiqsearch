@@ -1,13 +1,13 @@
+import { type WxtStorageItemType, extensionModeState } from "@/libs/storage"
 import { useStorageState } from "@/libs/useStorageState"
 
-const types = ["manual", "auto"] as const
-type STORAGE_TYPE = (typeof types)[number]
+type STORAGE_TYPE = WxtStorageItemType<typeof extensionModeState.storage>
 
 const isStorageType = (value: string): value is STORAGE_TYPE =>
-	types.includes(value as STORAGE_TYPE)
+	(["auto", "manual"] as STORAGE_TYPE[]).includes(value as STORAGE_TYPE)
 
 const BaseSwitch = (props: { mode: string; disabled?: boolean }) => {
-	const state = useStorageState<STORAGE_TYPE>("sync:mode", "manual")
+	const state = useStorageState(extensionModeState)
 
 	const handleOnChange = useCallback(
 		(e: React.ChangeEvent<HTMLInputElement>) => {
