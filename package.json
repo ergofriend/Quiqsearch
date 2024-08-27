@@ -17,9 +17,13 @@
 		"ci": "biome ci"
 	},
 	"dependencies": {
+		"clsx": "^2.1.1",
 		"es-toolkit": "^1.16.0",
+		"framer-motion": "^11.3.30",
+		"mini-svg-data-uri": "^1.4.4",
 		"react": "^18.3.1",
-		"react-dom": "^18.3.1"
+		"react-dom": "^18.3.1",
+		"tailwind-merge": "^2.5.2"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.8.3",

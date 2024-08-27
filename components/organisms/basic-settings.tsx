@@ -7,7 +7,6 @@ import {
 export const BasicSettings = () => {
 	return (
 		<div>
-			{/* TODO: GitHub repo link */}
 			<ExtensionSwitch />
 			<div className="flex flex-col gap-3">
 				<AutoModeSwitch />
