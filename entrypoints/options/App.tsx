@@ -4,17 +4,12 @@ import { AdvancedSettings } from "@/components/organisms/advanced-settings"
 import { extensionShortcutState } from "@/libs/storage"
 import { useStorageState } from "@/libs/useStorageState"
 import { debounce } from "es-toolkit"
-
 import hotkeys from "hotkeys-js"
 import { toString as event2String, setOptions } from "keyboard-event-to-string"
 
 setOptions({ hideKey: "always" })
 
 const debounceCmdRegister = debounce((run: () => void) => {
-	run()
-}, 250)
-
-const debounceCmdExec = debounce((run: () => void) => {
 	run()
 }, 250)
 
