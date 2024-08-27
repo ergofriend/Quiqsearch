@@ -1,7 +1,12 @@
 import { logger } from "@/libs/logger"
 import { executeSearch } from "@/libs/search"
-import { extensionFeatureState, extensionModeState } from "@/libs/storage"
+import {
+	extensionFeatureState,
+	extensionModeState,
+	extensionShortcutState,
+} from "@/libs/storage"
 import { debounce } from "es-toolkit"
+import hotkeys from "hotkeys-js"
 
 const handleSelectionChange = (event: string, c: AbortController) => {
 	const debounceMs = 2000
@@ -25,13 +30,34 @@ const handleSelectionChange = (event: string, c: AbortController) => {
 	}
 }
 
+let clearHotkeys = ""
+
 const init = (event: string, c: AbortController) => {
-	console.log(event, "handleSelectionChange registered.")
-	document.removeEventListener(
-		"selectionchange",
-		handleSelectionChange(event, c),
-	)
-	document.addEventListener("selectionchange", handleSelectionChange(event, c))
+	extensionModeState.storage.getValue().then((mode) => {
+		if (mode === "auto") {
+			console.log(event, "handleSelectionChange registered.")
+			document.removeEventListener(
+				"selectionchange",
+				handleSelectionChange(event, c),
+			)
+			document.addEventListener(
+				"selectionchange",
+				handleSelectionChange(event, c),
+			)
+		} else {
+			// manual
+			extensionShortcutState.storage.getValue().then((shortcut) => {
+				console.log(event, "page hotkeys registered.")
+				clearHotkeys = shortcut
+				hotkeys(shortcut, (event, handler) => {
+					const selection = window.getSelection()?.toString()
+					if (!selection) return
+					console.log(event, "page hotkeys:", event, handler)
+					executeSearch(window.location.href, selection)
+				})
+			})
+		}
+	})
 }
 
 const main = () => {
@@ -39,6 +65,7 @@ const main = () => {
 
 	let controller = new AbortController()
 	const renewController = () => {
+		hotkeys.unbind(clearHotkeys)
 		controller = new AbortController()
 	}
 

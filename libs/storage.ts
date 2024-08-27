@@ -44,3 +44,15 @@ export const extensionModeState = defineItemWithKey<"auto" | "manual">(
 		fallback: "auto",
 	},
 )
+
+/**
+ * ja: 拡張機能のショートカットを管理するストレージ
+ *
+ * en: Storage to manage the shortcut of the extension
+ */
+export const extensionShortcutState = defineItemWithKey<string>(
+	"sync:shortcut",
+	{
+		fallback: "Cmd + K",
+	},
+)

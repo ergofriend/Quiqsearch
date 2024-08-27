@@ -1,6 +1,8 @@
 import "../../assets/tailwind.css" // XXX: no alias import
 import { DotBackground } from "@/components/molecules/background"
 import { AdvancedSettings } from "@/components/organisms/advanced-settings"
+import { extensionShortcutState } from "@/libs/storage"
+import { useStorageState } from "@/libs/useStorageState"
 import { debounce } from "es-toolkit"
 
 import hotkeys from "hotkeys-js"
@@ -30,7 +32,7 @@ const CommandViewer = () => {
 		}
 	}, [status])
 
-	const [command, setCommand] = useState("-")
+	const state = useStorageState(extensionShortcutState)
 
 	hotkeys("*", (event) => {
 		const newCommand = event2String(event)
@@ -38,15 +40,7 @@ const CommandViewer = () => {
 		if (isRecording.current) {
 			debounceCmdRegister(() => {
 				console.log("hotkeys:record:", newCommand)
-				setCommand((oldCommand) => {
-					hotkeys.unbind(oldCommand)
-					hotkeys(newCommand, () => {
-						debounceCmdExec(() => {
-							console.info("hotkeys:command:", newCommand)
-						})
-					})
-					return newCommand
-				})
+				state.onChangeState(newCommand)
 			})
 		}
 	})
@@ -58,7 +52,7 @@ const CommandViewer = () => {
 				type="text"
 				className="input input-bordered"
 				disabled
-				value={command}
+				value={state.current}
 			/>
 			<button
 				type="button"
