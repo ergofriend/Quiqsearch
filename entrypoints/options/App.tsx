@@ -1,6 +1,75 @@
 import "../../assets/tailwind.css" // XXX: no alias import
 import { DotBackground } from "@/components/molecules/background"
 import { AdvancedSettings } from "@/components/organisms/advanced-settings"
+import { debounce } from "es-toolkit"
+
+import hotkeys from "hotkeys-js"
+import { toString as event2String, setOptions } from "keyboard-event-to-string"
+
+setOptions({ hideKey: "always" })
+
+const debounceCmdRegister = debounce((run: () => void) => {
+	run()
+}, 250)
+
+const debounceCmdExec = debounce((run: () => void) => {
+	run()
+}, 250)
+
+const CommandViewer = () => {
+	const [status, setStatus] = useState<"ready" | "recording">("ready")
+	const toggleStatus = () =>
+		setStatus((prev) => (prev === "ready" ? "recording" : "ready"))
+
+	const isRecording = useRef(false)
+	useEffect(() => {
+		if (status === "recording") {
+			isRecording.current = true
+		} else {
+			isRecording.current = false
+		}
+	}, [status])
+
+	const [command, setCommand] = useState("-")
+
+	hotkeys("*", (event) => {
+		const newCommand = event2String(event)
+		console.debug("hotkeys:*:", newCommand)
+		if (isRecording.current) {
+			debounceCmdRegister(() => {
+				console.log("hotkeys:record:", newCommand)
+				setCommand((oldCommand) => {
+					hotkeys.unbind(oldCommand)
+					hotkeys(newCommand, () => {
+						debounceCmdExec(() => {
+							console.info("hotkeys:command:", newCommand)
+						})
+					})
+					return newCommand
+				})
+			})
+		}
+	})
+
+	return (
+		<div className="flex flex-col gap-4">
+			{status}
+			<input
+				type="text"
+				className="input input-bordered"
+				disabled
+				value={command}
+			/>
+			<button
+				type="button"
+				className="btn btn-solid-success"
+				onClick={toggleStatus}
+			>
+				{status === "ready" ? "変更する" : "OK"}
+			</button>
+		</div>
+	)
+}
 
 function App() {
 	return (
@@ -22,6 +91,7 @@ function App() {
 						{browser.i18n.getMessage("detail_settings")}
 					</h2>
 					<AdvancedSettings />
+					<CommandViewer />
 				</div>
 
 				<div className="">

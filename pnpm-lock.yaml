@@ -14,6 +14,12 @@ dependencies:
   framer-motion:
     specifier: ^11.3.30
     version: 11.3.30(react-dom@18.3.1)(react@18.3.1)
+  hotkeys-js:
+    specifier: ^3.13.7
+    version: 3.13.7
+  keyboard-event-to-string:
+    specifier: ^2.1.0
+    version: 2.1.0
   mini-svg-data-uri:
     specifier: ^1.4.4
     version: 1.4.4
@@ -2460,6 +2466,10 @@ packages:
     resolution: {integrity: sha512-Yc+BQe8SvoXH1643Qez1zqLRmbA5rCL+sSmk6TVos0LWVfNIB7PGncdlId77WzLGSIB5KaWgTaNTs2lNVEI6VQ==}
     dev: true
 
+  /hotkeys-js@3.13.7:
+    resolution: {integrity: sha512-ygFIdTqqwG4fFP7kkiYlvayZppeIQX2aPpirsngkv1xM1lP0piDY5QEh68nQnIKvz64hfocxhBaD/uK3sSK1yQ==}
+    dev: false
+
   /html-escaper@3.0.3:
     resolution: {integrity: sha512-RuMffC89BOWQoY0WKGpIhn5gX3iI54O6nRA0yC124NYVtzjmFWBIiFd8M0x+ZdX0P9R4lADg1mgP8C7PxGOWuQ==}
     dev: true
@@ -2793,6 +2803,10 @@ packages:
       readable-stream: 2.3.8
       setimmediate: 1.0.5
     dev: true
+
+  /keyboard-event-to-string@2.1.0:
+    resolution: {integrity: sha512-ACRfkognB7i5ISqcaobzCR115t4CQx2OWXHZkWFAo55Hdrufiwp3zZjxkaTjRtPNAg/86MNZrqn1aod2w3xUtA==}
+    dev: false
 
   /keyv@4.5.4:
     resolution: {integrity: sha512-oxVHkHR/EJf2CNXnWxRLW6mg7JyCCUcG0DtEGmL2ctUo1PNTin1PUil+r/+4r5MpVgC/fn1kjsx7mjSujKqIpw==}
