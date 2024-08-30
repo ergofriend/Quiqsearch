@@ -1,3 +1,4 @@
+import autoprefixer from "autoprefixer"
 import { defineConfig } from "wxt"
 
 // See https://wxt.dev/api/config.html
@@ -15,4 +16,12 @@ export default defineConfig({
 			},
 		},
 	},
+	vite: () => ({
+		css: {
+			// devSourcemap: false,
+			// postcss: {
+			// 	plugins: [autoprefixer()],
+			// },
+		},
+	}),
 })

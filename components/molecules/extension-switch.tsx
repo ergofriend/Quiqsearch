@@ -1,21 +1,23 @@
 import { extensionFeatureState } from "@/libs/storage"
 import { useStorageState } from "@/libs/useStorageState"
+import { Label } from "../ui/label"
+import { Switch } from "../ui/switch"
 
 export const ExtensionSwitch = () => {
 	const state = useStorageState(extensionFeatureState)
 	return (
 		<div className="select-none">
-			<label htmlFor="extension-switch">
-				{browser.i18n.getMessage("extension_switch")}
-				<input
+			<div className="flex items-center space-x-2">
+				<Switch
 					id="extension-switch"
-					type="checkbox"
-					className="switch switch-primary"
 					disabled={!state.isInitialized}
 					checked={state.current}
-					onChange={(e) => state.onChangeState(e.target.checked)}
+					onCheckedChange={(checked) => state.onChangeState(checked)}
 				/>
-			</label>
+				<Label htmlFor="extension-switch">
+					{browser.i18n.getMessage("extension_switch")}
+				</Label>
+			</div>
 		</div>
 	)
 }
