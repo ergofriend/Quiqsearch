@@ -1,4 +1,4 @@
-import { extensionModeState, extensionShortcutState } from "@/libs/storage"
+import { extensionConfigState } from "@/libs/storage"
 import { useStorageState } from "@/libs/useStorageState"
 import { debounce } from "es-toolkit"
 import { AnimatePresence, motion } from "framer-motion"
@@ -32,7 +32,7 @@ const CommandViewer = () => {
 		}
 	}, [status])
 
-	const state = useStorageState(extensionShortcutState)
+	const state = useStorageState(extensionConfigState)
 
 	hotkeys("*", (event) => {
 		const newCommand = event2String(event)
@@ -40,7 +40,7 @@ const CommandViewer = () => {
 		if (isRecording.current) {
 			debounceCmdRegister(() => {
 				console.log("hotkeys:record:", newCommand)
-				state.onChangeState(newCommand)
+				state.onChangeState({ shortcutKeys: newCommand })
 			})
 		}
 	})
@@ -48,7 +48,9 @@ const CommandViewer = () => {
 	return (
 		<div className="flex flex-col gap-4">
 			<Card className="w-fit">
-				<CardContent className="px-4 py-2">{state.current}</CardContent>
+				<CardContent className="px-4 py-2">
+					{state.current.shortcutKeys}
+				</CardContent>
 			</Card>
 			<Button
 				type="button"
@@ -88,7 +90,7 @@ const InputNumber = (props: {
 }
 
 export const AdvancedSettings = () => {
-	const state = useStorageState(extensionModeState)
+	const state = useStorageState(extensionConfigState)
 
 	return (
 		<div className="flex flex-col gap-3">
@@ -99,10 +101,10 @@ export const AdvancedSettings = () => {
 			<ExtensionSwitch />
 
 			<Tabs
-				value={state.current}
+				value={state.current.mode}
 				onValueChange={(value) => {
 					if (value !== "auto" && value !== "manual") return
-					state.onChangeState(value)
+					state.onChangeState({ mode: value })
 				}}
 			>
 				<TabsList>

@@ -1,18 +1,20 @@
-import { extensionFeatureState } from "@/libs/storage"
+import { extensionConfigState } from "@/libs/storage"
 import { useStorageState } from "@/libs/useStorageState"
 import { Label } from "../ui/label"
 import { Switch } from "../ui/switch"
 
 export const ExtensionSwitch = () => {
-	const state = useStorageState(extensionFeatureState)
+	const state = useStorageState(extensionConfigState)
 	return (
 		<div className="select-none">
 			<div className="flex items-center space-x-2">
 				<Switch
 					id="extension-switch"
 					disabled={!state.isInitialized}
-					checked={state.current}
-					onCheckedChange={(checked) => state.onChangeState(checked)}
+					checked={state.current.enabled}
+					onCheckedChange={(checked) =>
+						state.onChangeState({ enabled: checked })
+					}
 				/>
 				<Label htmlFor="extension-switch">
 					{browser.i18n.getMessage("extension_switch")}
