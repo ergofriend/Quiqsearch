@@ -1,5 +1,7 @@
 import { type WxtStorageItemType, extensionConfigState } from "@/libs/storage"
 import { useStorageState } from "@/libs/useStorageState"
+import { Label } from "../ui/label"
+import { RadioGroup, RadioGroupItem } from "../ui/radio-group"
 
 type STORAGE_TYPE = WxtStorageItemType<
 	typeof extensionConfigState.storage
@@ -8,40 +10,32 @@ type STORAGE_TYPE = WxtStorageItemType<
 const isStorageType = (value: string): value is STORAGE_TYPE =>
 	(["auto", "manual"] as STORAGE_TYPE[]).includes(value as STORAGE_TYPE)
 
-const BaseSwitch = (props: { mode: string; disabled?: boolean }) => {
+export const ModeSwitcher = () => {
 	const state = useStorageState(extensionConfigState)
 
 	const handleOnChange = useCallback(
-		(e: React.ChangeEvent<HTMLInputElement>) => {
-			if (!isStorageType(e.target.value)) {
-				throw new Error(`Invalid mode: ${e.target.value}`)
+		(value: string) => {
+			if (!isStorageType(value)) {
+				throw new Error(`Invalid mode: ${value}`)
 			}
-			state.onChangeState({ mode: e.target.value })
+			state.onChangeState({ mode: value })
 		},
 		[state.onChangeState],
 	)
 
 	return (
-		<label className="inline-flex" htmlFor={props.mode}>
-			<input
-				type="radio"
-				className="radio"
-				name="mode-switch"
-				id={props.mode}
-				value={props.mode}
-				checked={state.isInitialized && state.current.mode === props.mode}
-				disabled={props.disabled}
-				onChange={handleOnChange}
-			/>
-			{props.mode}
-		</label>
+		<RadioGroup
+			defaultValue={state.current.mode}
+			onValueChange={handleOnChange}
+		>
+			<div className="flex items-center space-x-2">
+				<RadioGroupItem value="auto" id="option-one" />
+				<Label htmlFor="option-one">自動検索</Label>
+			</div>
+			<div className="flex items-center space-x-2">
+				<RadioGroupItem value="manual" id="option-two" />
+				<Label htmlFor="option-two">手動検索</Label>
+			</div>
+		</RadioGroup>
 	)
-}
-
-export const ManualModeSwitch = () => {
-	return <BaseSwitch mode="manual" />
-}
-
-export const AutoModeSwitch = () => {
-	return <BaseSwitch mode="auto" />
 }

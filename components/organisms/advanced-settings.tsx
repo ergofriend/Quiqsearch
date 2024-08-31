@@ -6,10 +6,10 @@ import hotkeys from "hotkeys-js"
 import { toString as event2String, setOptions } from "keyboard-event-to-string"
 import { Minus, Plus } from "lucide-react"
 import { ExtensionSwitch } from "../molecules/extension-switch"
-import { AutoModeSwitch, ManualModeSwitch } from "../molecules/mode-switcher"
 import { Button } from "../ui/button"
 import { Card, CardContent } from "../ui/card"
 import { Input } from "../ui/input"
+import { Label } from "../ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs"
 
 setOptions({ hideKey: "always" })
@@ -40,7 +40,7 @@ const CommandViewer = () => {
 		if (isRecording.current) {
 			debounceCmdRegister(() => {
 				console.log("hotkeys:record:", newCommand)
-				state.onChangeState({ shortcutKeys: newCommand })
+				state.onChangeState({ manual_shortcutKeys: newCommand })
 			})
 		}
 	})
@@ -49,7 +49,7 @@ const CommandViewer = () => {
 		<div className="flex flex-col gap-4">
 			<Card className="w-fit">
 				<CardContent className="px-4 py-2">
-					{state.current.shortcutKeys}
+					{state.current.manual_shortcutKeys}
 				</CardContent>
 			</Card>
 			<Button
@@ -67,9 +67,19 @@ const InputNumber = (props: {
 	value: number
 	onChange?: (value: number) => void
 }) => {
+	const handleIncrement = () => {
+		if (props.onChange) {
+			props.onChange(props.value + 1)
+		}
+	}
+	const handleDecrement = () => {
+		if (props.onChange) {
+			props.onChange(props.value - 1)
+		}
+	}
 	return (
 		<div className="flex gap-2 w-60 justify-center items-center">
-			<Button size={"sm"}>
+			<Button size={"sm"} onClick={handleDecrement} disabled={props.value <= 0}>
 				<Minus className="h-4 w-4" />
 			</Button>
 			<Input
@@ -82,7 +92,11 @@ const InputNumber = (props: {
 					}
 				}}
 			/>
-			<Button size={"sm"}>
+			<Button
+				size={"sm"}
+				onClick={handleIncrement}
+				disabled={props.value >= 9999}
+			>
 				<Plus className="h-4 w-4" />
 			</Button>
 		</div>
@@ -118,10 +132,35 @@ export const AdvancedSettings = () => {
 							animate={{ y: 0, opacity: 1 }}
 							exit={{ opacity: 0 }}
 							transition={{ duration: 0.5 }}
+							className="flex flex-col gap-4"
 						>
-							<InputNumber value={5} />
-							<InputNumber value={15} />
-							<InputNumber value={1500} />
+							<div className="grid">
+								<Label className="text-sm">最低文字数</Label>
+								<InputNumber
+									value={state.current.auto_minTextLength}
+									onChange={(value) =>
+										state.onChangeState({ auto_minTextLength: value })
+									}
+								/>
+							</div>
+							<div className="grid">
+								<Label className="text-sm">最大文字数</Label>
+								<InputNumber
+									value={state.current.auto_maxTextLength}
+									onChange={(value) =>
+										state.onChangeState({ auto_maxTextLength: value })
+									}
+								/>
+							</div>
+							<div className="grid">
+								<Label className="text-sm">検索間隔(ms)</Label>
+								<InputNumber
+									value={state.current.auto_debounceMs}
+									onChange={(value) =>
+										state.onChangeState({ auto_debounceMs: value })
+									}
+								/>
+							</div>
 						</motion.div>
 					</TabsContent>
 					<TabsContent key="manual" value="manual" className="h-60" asChild>

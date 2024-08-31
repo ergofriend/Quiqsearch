@@ -27,8 +27,13 @@ const defineItemWithKey = <T>(
 type ExtensionConfig = {
 	enabled: boolean
 	mode: "auto" | "manual"
-	shortcutKeys: string
+	auto_minTextLength: number
+	auto_maxTextLength: number
+	auto_debounceMs: number
+	manual_shortcutKeys: string
 }
+
+export const initialAutoDebounceMs = 1500
 
 export const extensionConfigState = defineItemWithKey<ExtensionConfig>(
 	"sync:config",
@@ -36,7 +41,10 @@ export const extensionConfigState = defineItemWithKey<ExtensionConfig>(
 		fallback: {
 			enabled: true,
 			mode: "auto",
-			shortcutKeys: "Ctrl + P",
+			manual_shortcutKeys: "Ctrl + P",
+			auto_minTextLength: 3,
+			auto_maxTextLength: 50,
+			auto_debounceMs: initialAutoDebounceMs,
 		},
 	},
 )

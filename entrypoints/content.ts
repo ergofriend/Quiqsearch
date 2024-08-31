@@ -1,6 +1,10 @@
 import { logger } from "@/libs/logger"
 import { executeSearch } from "@/libs/search"
-import { type WxtStorageItemType, extensionConfigState } from "@/libs/storage"
+import {
+	type WxtStorageItemType,
+	extensionConfigState,
+	initialAutoDebounceMs,
+} from "@/libs/storage"
 import { debounce } from "es-toolkit"
 import hotkeys from "hotkeys-js"
 
@@ -11,7 +15,6 @@ const syncState = (config: ExtensionConfig) => {
 	__quiqsearch_extensionConfig_prev = __quiqsearch_extensionConfig
 	__quiqsearch_extensionConfig = config
 }
-
 const getExtensionConfig = () => {
 	if (!__quiqsearch_extensionConfig)
 		throw new Error("Extension config is not set.")
@@ -25,26 +28,33 @@ const main = () => {
 	let controller = new AbortController()
 	const getSignal = () => controller.signal
 	const renewController = () => {
-		hotkeys.unbind(__quiqsearch_extensionConfig_prev?.shortcutKeys)
+		hotkeys.unbind(__quiqsearch_extensionConfig_prev?.manual_shortcutKeys)
 		controller = new AbortController()
 	}
 
-	const debounceMs = 2000
-	const debouncedWithSignalFunction = debounce(
-		() => {
-			const config = getExtensionConfig()
-			if (config.mode !== "auto") return
-			const selection = window.getSelection()?.toString()
-			logger.debug("debouncedWithSignalFunction:selection:", selection)
-			if (!selection) return
-			executeSearch(window.location.href, selection)
-		},
-		debounceMs,
+	const debouncedWithSignalFunctionImpl = () => {
+		const config = getExtensionConfig()
+		const selection = window.getSelection()?.toString()
+		logger.debug("debouncedWithSignalFunction:selection:", selection, config)
+		if (!selection) return
+		if (selection.length < config.auto_minTextLength) return
+		if (selection.length > config.auto_maxTextLength) return
+		executeSearch(window.location.href, selection)
+	}
+	let debouncedWithSignalFunction = debounce(
+		debouncedWithSignalFunctionImpl,
+		initialAutoDebounceMs,
 		{ signal: getSignal() },
 	)
-
-	const handleSelectionChange = () => {
-		console.debug("handleSelectionChange called.")
+	const reRegisterDebounceWithSignalFunction = (debounceMs: number) => {
+		debouncedWithSignalFunction = debounce(
+			debouncedWithSignalFunctionImpl,
+			debounceMs,
+			{ signal: getSignal() },
+		)
+	}
+	const eventHandler = () => {
+		console.debug("handleSelectionChange:called")
 		debouncedWithSignalFunction()
 	}
 
@@ -52,13 +62,14 @@ const main = () => {
 		const config = getExtensionConfig()
 		if (config.mode === "auto") {
 			console.log(event, "handleSelectionChange registered.")
-			document.removeEventListener("selectionchange", handleSelectionChange)
-			document.addEventListener("selectionchange", handleSelectionChange)
+			document.removeEventListener("selectionchange", eventHandler)
 			renewController()
+			reRegisterDebounceWithSignalFunction(config.auto_debounceMs)
+			document.addEventListener("selectionchange", eventHandler)
 		} else {
 			// manual
 			console.log(event, "page hotkeys registered.")
-			hotkeys(config.shortcutKeys, (event, handler) => {
+			hotkeys(config.manual_shortcutKeys, (event, handler) => {
 				const selection = window.getSelection()?.toString()
 				if (!selection) return
 				console.log(event, "page hotkeys:", event, handler)

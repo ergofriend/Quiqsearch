@@ -13,19 +13,21 @@ const handleOpenOptionsPage = () => {
 function App() {
 	return (
 		<DotBackground>
-			<div className="flex flex-col gap-4 p-4">
+			<div className="grid gap-4 p-4 w-full">
+				<div className="flex items-center justify-between">
+					<h1 className="text-2xl font-bold tracking-tight text-gray-900">
+						{browser.i18n.getMessage("app_title")}
+					</h1>
+					<Button
+						variant="outline"
+						size="icon"
+						className="p-0"
+						onClick={handleOpenOptionsPage}
+					>
+						<Settings />
+					</Button>
+				</div>
 				<BasicSettings />
-				<button type="button" onClick={handleOpenOptionsPage}>
-					{browser.i18n.getMessage("detail_settings")}
-				</button>
-				<Button
-					variant="outline"
-					size="icon"
-					className="p-0"
-					onClick={handleOpenOptionsPage}
-				>
-					<Settings />
-				</Button>
 			</div>
 		</DotBackground>
 	)
