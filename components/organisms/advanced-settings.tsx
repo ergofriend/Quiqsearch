@@ -4,7 +4,7 @@ import { debounce } from "es-toolkit"
 import { AnimatePresence, motion } from "framer-motion"
 import hotkeys from "hotkeys-js"
 import { toString as event2String, setOptions } from "keyboard-event-to-string"
-import { Minus, Plus } from "lucide-react"
+import { Edit, Minus, Plus, Save } from "lucide-react"
 import { ExtensionSwitch } from "../molecules/extension-switch"
 import { Button } from "../ui/button"
 import { Card, CardContent } from "../ui/card"
@@ -46,19 +46,26 @@ const CommandViewer = () => {
 	})
 
 	return (
-		<div className="flex flex-col gap-4">
-			<Card className="w-fit">
-				<CardContent className="px-4 py-2">
-					{state.current.manual_shortcutKeys}
-				</CardContent>
-			</Card>
-			<Button
-				type="button"
-				className="btn btn-solid-success w-fit"
-				onClick={toggleStatus}
-			>
-				{status === "ready" ? "変更する" : "OK"}
-			</Button>
+		<div className="grid gap-1">
+			<Label className="text-sm">検索コマンド</Label>
+			<div className="flex gap-4 items-center">
+				<Card className="w-fit">
+					<CardContent className="px-4 py-2 text-2xl">
+						{state.current.manual_shortcutKeys}
+					</CardContent>
+				</Card>
+				<Button
+					type="button"
+					className="btn btn-solid-success w-fit"
+					onClick={toggleStatus}
+				>
+					{status === "ready" ? (
+						<Edit className="h-4 w-4" />
+					) : (
+						<Save className="h-4 w-4" />
+					)}
+				</Button>
+			</div>
 		</div>
 	)
 }
