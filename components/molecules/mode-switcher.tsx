@@ -24,10 +24,7 @@ export const ModeSwitcher = () => {
 	)
 
 	return (
-		<RadioGroup
-			defaultValue={state.current.mode}
-			onValueChange={handleOnChange}
-		>
+		<RadioGroup value={state.current.mode} onValueChange={handleOnChange}>
 			<div className="flex items-center space-x-2">
 				<RadioGroupItem value="auto" id="option-one" />
 				<Label htmlFor="option-one">自動検索</Label>
