@@ -42,6 +42,7 @@ const main = () => {
 	const init = (event: string, config: ExtensionConfig) => {
 		_config = config
 		clearExtension()
+		if (!config.enabled) return
 		if (config.mode === "auto") {
 			console.log(event, "handleSelectionChange registered.")
 			debounceEventHandler = debounce(eventHandler, config.auto_debounceMs)
