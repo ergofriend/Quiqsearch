@@ -33,7 +33,7 @@ const main = () => {
 	const eventHandler = () => {
 		const href = window.location.href
 		const selection = window.getSelection()?.toString()
-		console.log("eventHandler:called", href, selection)
+		logger.log("eventHandler:called", href, selection)
 		if (!selection) return
 		debouncedWithSignalFunctionImpl(href, selection)
 	}
@@ -44,12 +44,12 @@ const main = () => {
 		clearExtension()
 		if (!config.enabled) return
 		if (config.mode === "auto") {
-			console.log(event, "handleSelectionChange registered.")
+			logger.log(event, "handleSelectionChange registered.")
 			debounceEventHandler = debounce(eventHandler, config.auto_debounceMs)
 			document.addEventListener("selectionchange", debounceEventHandler)
 		} else {
 			// manual
-			console.log(event, "page hotkeys registered.")
+			logger.log(event, "page hotkeys registered.")
 			hotkeys(config.manual_shortcutKeys, eventHandler)
 		}
 	}
