@@ -6,7 +6,7 @@ import { Cover } from "@/components/ui/cover"
 function App() {
 	return (
 		<DotBackground>
-			<div className="w-full overflow-auto flex flex-col gap-8 px-20 py-10">
+			<div className="w-full overflow-auto flex flex-col gap-8 px-24 py-10">
 				<h1 className="text-4xl font-bold tracking-tight text-gray-900">
 					{browser.i18n.getMessage("app_title")}
 				</h1>
@@ -20,7 +20,7 @@ function App() {
 					{browser.i18n.getMessage("option_description_3")}
 				</h2>
 
-				<div className="">
+				<div className="flex flex-col gap-4">
 					<h2 className="text-lg font-semibold leading-6 text-gray-900">
 						{browser.i18n.getMessage("detail_settings")}
 					</h2>
@@ -31,26 +31,28 @@ function App() {
 					<h2 className="text-lg font-semibold leading-6 text-gray-900">
 						Links
 					</h2>
-					<Card className="w-fit">
-						<CardContent className="p-4">
+					<div className="flex gap-4">
+						<Card className="w-fit">
 							<a
 								href={browser.i18n.getMessage("link_github_url")}
 								className="text-blue-600 visited:text-purple-600"
 							>
-								{browser.i18n.getMessage("link_github")}
+								<CardContent className="p-4">
+									{browser.i18n.getMessage("link_github")}
+								</CardContent>
 							</a>
-						</CardContent>
-					</Card>
-					<Card className="w-fit">
-						<CardContent className="p-4">
+						</Card>
+						<Card className="w-fit">
 							<a
 								href={browser.i18n.getMessage("link_chrome_web_store_url")}
 								className="text-blue-600 visited:text-purple-600"
 							>
-								{browser.i18n.getMessage("link_chrome_web_store")}
+								<CardContent className="p-4">
+									{browser.i18n.getMessage("link_chrome_web_store")}
+								</CardContent>
 							</a>
-						</CardContent>
-					</Card>
+						</Card>
+					</div>
 				</div>
 			</div>
 		</DotBackground>
