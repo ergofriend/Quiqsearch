@@ -1,49 +1,49 @@
-import { extensionConfigState } from "@/libs/storage";
-import { useStorageState } from "@/libs/useStorageState";
-import { debounce } from "es-toolkit";
-import { AnimatePresence, motion } from "framer-motion";
-import hotkeys from "hotkeys-js";
-import { toString as event2String, setOptions } from "keyboard-event-to-string";
-import { Edit, Minus, Plus, Save } from "lucide-react";
-import { ExtensionSwitch } from "../molecules/extension-switch";
-import { Button } from "../ui/button";
-import { Card, CardContent } from "../ui/card";
-import { Input } from "../ui/input";
-import { Label } from "../ui/label";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
+import { extensionConfigState } from "@/libs/storage"
+import { useStorageState } from "@/libs/useStorageState"
+import { debounce } from "es-toolkit"
+import { AnimatePresence, motion } from "framer-motion"
+import hotkeys from "hotkeys-js"
+import { toString as event2String, setOptions } from "keyboard-event-to-string"
+import { Edit, Minus, Plus, Save } from "lucide-react"
+import { ExtensionSwitch } from "../molecules/extension-switch"
+import { Button } from "../ui/button"
+import { Card, CardContent } from "../ui/card"
+import { Input } from "../ui/input"
+import { Label } from "../ui/label"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs"
 
-setOptions({ hideKey: "always" });
+setOptions({ hideKey: "always" })
 
 const debounceCmdRegister = debounce((run: () => void) => {
-	run();
-}, 250);
+	run()
+}, 250)
 
 const CommandViewer = () => {
-	const [status, setStatus] = useState<"ready" | "recording">("ready");
+	const [status, setStatus] = useState<"ready" | "recording">("ready")
 	const toggleStatus = () =>
-		setStatus((prev) => (prev === "ready" ? "recording" : "ready"));
+		setStatus((prev) => (prev === "ready" ? "recording" : "ready"))
 
-	const isRecording = useRef(false);
+	const isRecording = useRef(false)
 	useEffect(() => {
 		if (status === "recording") {
-			isRecording.current = true;
+			isRecording.current = true
 		} else {
-			isRecording.current = false;
+			isRecording.current = false
 		}
-	}, [status]);
+	}, [status])
 
-	const state = useStorageState(extensionConfigState);
+	const state = useStorageState(extensionConfigState)
 
 	hotkeys("*", (event) => {
-		const newCommand = event2String(event);
-		console.debug("hotkeys:*:", newCommand);
+		const newCommand = event2String(event)
+		console.debug("hotkeys:*:", newCommand)
 		if (isRecording.current) {
 			debounceCmdRegister(() => {
-				console.log("hotkeys:record:", newCommand);
-				state.onChangeState({ manual_shortcutKeys: newCommand });
-			});
+				console.log("hotkeys:record:", newCommand)
+				state.onChangeState({ manual_shortcutKeys: newCommand })
+			})
 		}
-	});
+	})
 
 	return (
 		<div className="grid gap-2">
@@ -69,23 +69,23 @@ const CommandViewer = () => {
 				</Button>
 			</div>
 		</div>
-	);
-};
+	)
+}
 
 const InputNumber = (props: {
-	value: number;
-	onChange?: (value: number) => void;
+	value: number
+	onChange?: (value: number) => void
 }) => {
 	const handleIncrement = () => {
 		if (props.onChange) {
-			props.onChange(props.value + 1);
+			props.onChange(props.value + 1)
 		}
-	};
+	}
 	const handleDecrement = () => {
 		if (props.onChange) {
-			props.onChange(props.value - 1);
+			props.onChange(props.value - 1)
 		}
-	};
+	}
 	return (
 		<div className="flex gap-2 w-60 justify-center items-center">
 			<Button size={"sm"} onClick={handleDecrement} disabled={props.value <= 0}>
@@ -97,7 +97,7 @@ const InputNumber = (props: {
 				value={props.value}
 				onChange={(e) => {
 					if (props.onChange) {
-						props.onChange(Number(e.target.value));
+						props.onChange(Number(e.target.value))
 					}
 				}}
 			/>
@@ -109,11 +109,11 @@ const InputNumber = (props: {
 				<Plus className="h-4 w-4" />
 			</Button>
 		</div>
-	);
-};
+	)
+}
 
 export const AdvancedSettings = () => {
-	const state = useStorageState(extensionConfigState);
+	const state = useStorageState(extensionConfigState)
 
 	return (
 		<div className="flex flex-col gap-3">
@@ -126,8 +126,8 @@ export const AdvancedSettings = () => {
 			<Tabs
 				value={state.current.mode}
 				onValueChange={(value) => {
-					if (value !== "auto" && value !== "manual") return;
-					state.onChangeState({ mode: value });
+					if (value !== "auto" && value !== "manual") return
+					state.onChangeState({ mode: value })
 				}}
 			>
 				<TabsList>
@@ -196,5 +196,5 @@ export const AdvancedSettings = () => {
 				</AnimatePresence>
 			</Tabs>
 		</div>
-	);
-};
+	)
+}
