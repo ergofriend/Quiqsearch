@@ -5,13 +5,49 @@
 	"app_description": {
 		"message": "Quickly search for a selection."
 	},
+	"option_description_1": {
+		"message": "Quickly search"
+	},
+	"option_description_2": {
+		"message": "a selection"
+	},
+	"option_description_3": {
+		"message": "of pages"
+	},
 	"detail_settings": {
 		"message": "Advanced Settings"
 	},
 	"extension_switch": {
 		"message": "Enable Extension"
 	},
-	"manual_command_description": {
-		"message": "Enter a command to search for."
+	"auto_mode_label": {
+		"message": "Auto Search"
+	},
+	"auto_mode_min_length": {
+		"message": "Minimum Text length"
+	},
+	"auto_mode_max_length": {
+		"message": "Maximum Text length"
+	},
+	"auto_mode_interval": {
+		"message": "Search Interval"
+	},
+	"manual_mode_label": {
+		"message": "Command Search"
+	},
+	"manual_command_label": {
+		"message": "Search Shortcut"
+	},
+	"link_github": {
+		"message": "GitHub Repository"
+	},
+	"link_github_url": {
+		"message": "https://github.com/ergofriend/Quiqsearch"
+	},
+	"link_chrome_web_store": {
+		"message": "Chrome Web Store"
+	},
+	"link_chrome_web_store_url": {
+		"message": "https://chromewebstore.google.com/detail/quiqserch/aemnbkipehpanmmiicmofabkfllcmajj"
 	}
 }

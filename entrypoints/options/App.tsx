@@ -15,7 +15,9 @@ function App() {
 					style={{ lineHeight: 1.5 }}
 					className="text-4xl md:text-4xl lg:text-6xl font-semibold max-w-7xl mx-auto text-center relative z-20 py-6 bg-clip-text text-transparent bg-gradient-to-b from-neutral-800 via-neutral-700 to-neutral-700 dark:from-neutral-800 dark:via-white dark:to-white"
 				>
-					ページの<Cover>選択範囲</Cover>を素早く検索
+					{browser.i18n.getMessage("option_description_1")}
+					<Cover>{browser.i18n.getMessage("option_description_2")}</Cover>
+					{browser.i18n.getMessage("option_description_3")}
 				</h2>
 
 				<div className="">
@@ -32,21 +34,20 @@ function App() {
 					<Card className="w-fit">
 						<CardContent className="p-4">
 							<a
-								href="https://github.com/ergofriend/Quiqsearch"
+								href={browser.i18n.getMessage("link_github_url")}
 								className="text-blue-600 visited:text-purple-600"
 							>
-								ergofriend&#x2F;Quiqsearch: A chrome extension. Auto searching
-								word you selected.
+								{browser.i18n.getMessage("link_github")}
 							</a>
 						</CardContent>
 					</Card>
 					<Card className="w-fit">
 						<CardContent className="p-4">
 							<a
-								href="https://chromewebstore.google.com/detail/quiqserch/aemnbkipehpanmmiicmofabkfllcmajj"
+								href={browser.i18n.getMessage("link_chrome_web_store_url")}
 								className="text-blue-600 visited:text-purple-600"
 							>
-								Quiqserch - Chrome ウェブストア
+								{browser.i18n.getMessage("link_chrome_web_store")}
 							</a>
 						</CardContent>
 					</Card>

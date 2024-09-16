@@ -5,13 +5,49 @@
 	"app_description": {
 		"message": "選択範囲をすばやく検索"
 	},
+	"option_description_1": {
+		"message": "ページの"
+	},
+	"option_description_2": {
+		"message": "選択範囲"
+	},
+	"option_description_3": {
+		"message": "を素早く検索"
+	},
 	"detail_settings": {
 		"message": "詳細設定"
 	},
 	"extension_switch": {
 		"message": "拡張機能を有効にする"
 	},
-	"manual_command_description": {
-		"message": "コマンドを入力して選択範囲を検索"
+	"auto_mode_label": {
+		"message": "自動検索"
+	},
+	"auto_mode_min_length": {
+		"message": "最低文字数"
+	},
+	"auto_mode_max_length": {
+		"message": "最大文字数"
+	},
+	"auto_mode_interval": {
+		"message": "検索間隔"
+	},
+	"manual_mode_label": {
+		"message": "コマンド検索"
+	},
+	"manual_command_label": {
+		"message": "検索用ショートカット"
+	},
+	"link_github": {
+		"message": "GitHub リポジトリ"
+	},
+	"link_github_url": {
+		"message": "https://github.com/ergofriend/Quiqsearch"
+	},
+	"link_chrome_web_store": {
+		"message": "Chrome ウェブストア"
+	},
+	"link_chrome_web_store_url": {
+		"message": "https://chromewebstore.google.com/detail/quiqserch/aemnbkipehpanmmiicmofabkfllcmajj"
 	}
 }

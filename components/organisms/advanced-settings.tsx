@@ -47,7 +47,9 @@ const CommandViewer = () => {
 
 	return (
 		<div className="grid gap-1">
-			<Label className="text-sm">検索コマンド</Label>
+			<Label className="text-sm">
+				{browser.i18n.getMessage("manual_command_label")}
+			</Label>
 			<div className="flex gap-4 items-center">
 				<Card className="w-fit">
 					<CardContent className="px-4 py-2 text-2xl">
@@ -129,8 +131,12 @@ export const AdvancedSettings = () => {
 				}}
 			>
 				<TabsList>
-					<TabsTrigger value="auto">自動検索</TabsTrigger>
-					<TabsTrigger value="manual">手動検索</TabsTrigger>
+					<TabsTrigger value="auto">
+						{browser.i18n.getMessage("auto_mode_label")}
+					</TabsTrigger>
+					<TabsTrigger value="manual">
+						{browser.i18n.getMessage("manual_mode_label")}
+					</TabsTrigger>
 				</TabsList>
 				<AnimatePresence mode="sync">
 					<TabsContent key="auto" value="auto" className="h-60" asChild>
@@ -142,7 +148,9 @@ export const AdvancedSettings = () => {
 							className="flex flex-col gap-4"
 						>
 							<div className="grid">
-								<Label className="text-sm">最低文字数</Label>
+								<Label className="text-sm">
+									{browser.i18n.getMessage("auto_mode_min_length")}
+								</Label>
 								<InputNumber
 									value={state.current.auto_minTextLength}
 									onChange={(value) =>
@@ -151,7 +159,9 @@ export const AdvancedSettings = () => {
 								/>
 							</div>
 							<div className="grid">
-								<Label className="text-sm">最大文字数</Label>
+								<Label className="text-sm">
+									{browser.i18n.getMessage("auto_mode_max_length")}
+								</Label>
 								<InputNumber
 									value={state.current.auto_maxTextLength}
 									onChange={(value) =>
@@ -160,7 +170,9 @@ export const AdvancedSettings = () => {
 								/>
 							</div>
 							<div className="grid">
-								<Label className="text-sm">検索間隔(ms)</Label>
+								<Label className="text-sm">
+									{`${browser.i18n.getMessage("auto_mode_interval")} (ms)`}
+								</Label>
 								<InputNumber
 									value={state.current.auto_debounceMs}
 									onChange={(value) =>
