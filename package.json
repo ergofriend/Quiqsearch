@@ -2,7 +2,7 @@
 	"name": "quiqsearch",
 	"description": "Quickly search for a selection.",
 	"private": true,
-	"version": "0.0.0",
+	"version": "1.0.0",
 	"type": "module",
 	"scripts": {
 		"dev": "wxt",
