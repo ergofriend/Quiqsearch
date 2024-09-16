@@ -8,6 +8,10 @@ if (!target) {
 	throw new Error("Failed to find root element")
 }
 
+if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+	document.documentElement.classList.add("dark")
+}
+
 ReactDOM.createRoot(target).render(
 	<React.StrictMode>
 		<App />

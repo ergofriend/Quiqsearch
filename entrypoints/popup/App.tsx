@@ -15,7 +15,7 @@ function App() {
 		<DotBackground>
 			<div className="grid gap-4 p-4 w-full">
 				<div className="flex items-center justify-between">
-					<h1 className="text-2xl font-bold tracking-tight text-gray-900">
+					<h1 className="text-2xl font-bold tracking-tight">
 						{browser.i18n.getMessage("app_title")}
 					</h1>
 					<Button

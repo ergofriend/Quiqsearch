@@ -7,7 +7,7 @@ function App() {
 	return (
 		<DotBackground>
 			<div className="w-full overflow-auto flex flex-col gap-8 px-24 py-10">
-				<h1 className="text-4xl font-bold tracking-tight text-gray-900">
+				<h1 className="text-4xl font-bold tracking-tight">
 					{browser.i18n.getMessage("app_title")}
 				</h1>
 
@@ -21,16 +21,14 @@ function App() {
 				</h2>
 
 				<div className="flex flex-col gap-4">
-					<h2 className="text-lg font-semibold leading-6 text-gray-900">
+					<h2 className="text-lg font-semibold leading-6">
 						{browser.i18n.getMessage("detail_settings")}
 					</h2>
 					<AdvancedSettings />
 				</div>
 
 				<div className="flex flex-col gap-2">
-					<h2 className="text-lg font-semibold leading-6 text-gray-900">
-						Links
-					</h2>
+					<h2 className="text-lg font-semibold leading-6">Links</h2>
 					<div className="flex gap-4">
 						<Card className="w-fit">
 							<a
