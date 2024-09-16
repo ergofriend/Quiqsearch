@@ -6,7 +6,7 @@ const searchWithGoogle = (keyword: string) => {
 
 export const executeSearch = (currentTabUrl: string, selectedText: string) => {
 	if (!selectedText) return
-	// TODO: filter target
+
 	const target = searchWithGoogle(selectedText)
 	if (typeof window !== "undefined") {
 		window.open(target, "_blank")
