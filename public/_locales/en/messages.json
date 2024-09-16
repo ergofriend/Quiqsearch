@@ -6,13 +6,13 @@
 		"message": "Quickly search for a selection."
 	},
 	"option_description_1": {
-		"message": "Quickly search"
+		"message": "Quickly search for"
 	},
 	"option_description_2": {
-		"message": "a selection"
+		"message": "the Selected text"
 	},
 	"option_description_3": {
-		"message": "of pages"
+		"message": "on the Web"
 	},
 	"detail_settings": {
 		"message": "Advanced Settings"
