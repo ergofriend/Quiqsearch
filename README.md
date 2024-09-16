@@ -1,9 +1,6 @@
 # Quiqsearch
 
-Rewritten for Manifest V3 using wxt
+![hero](/docs/images/hero.gif)
 
-## Links
-
-[chrome web store](https://chrome.google.com/webstore/detail/quiqserch/aemnbkipehpanmmiicmofabkfllcmajj)
-
-[chrome web store 日本語](https://chrome.google.com/webstore/detail/quiqserch/aemnbkipehpanmmiicmofabkfllcmajj?hl=ja)
+- Rewritten with [wxt](https://github.com/wxt-dev/wxt) for the Manifest V3
+- [Chrome Web Store](https://chrome.google.com/webstore/detail/quiqserch/aemnbkipehpanmmiicmofabkfllcmajj)
