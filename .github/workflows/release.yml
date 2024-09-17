@@ -1,0 +1,57 @@
+name: release
+
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
+  workflow_dispatch:
+    inputs:
+      version:
+        required: true
+        type: string
+        description: 'Deploy version without "v" ( ex: *.*.* )'
+        default: ''
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Get version from tag
+        id: variables
+        shell: bash
+        run: |
+          VERSION=''
+          if [ "${{ github.event_name }}" = "push" ]; then
+            VERSION="${GITHUB_REF#refs/tags/v}"
+          elif [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            VERSION="${{ github.event.inputs.version }}"
+          else
+            echo "Invalid event type"
+            exit 1
+          fi
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+      - name: Check same version
+        run: |
+          echo "VERSION=${{ steps.variables.outputs.VERSION }}"
+          echo "package.json version=$(jq -r '.version' package.json)"
+          if [ "${{ steps.variables.outputs.VERSION }}" != "$(jq -r '.version' package.json)" ]; then
+            echo "Version is not same"
+            exit 1
+          fi
+        shell: bash
+      - name: Setup
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+      - name: Install
+        run: pnpm i --frozen-lockfile
+      - name: Build
+        run: pnpm zip && pnpm zip:firefox
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.variables.outputs.VERSION }}
+          files: .output/*.zip
