@@ -10,3 +10,4 @@ git tag vX.Y.Z; git push --tags
 
 - https://github.com/ergofriend/Quiqsearch/releases
 - https://chromewebstore.google.com/
+- https://addons.mozilla.org/ja/developers/addons
