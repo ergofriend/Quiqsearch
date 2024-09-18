@@ -6,6 +6,7 @@ import hotkeys from "hotkeys-js"
 import { toString as event2String, setOptions } from "keyboard-event-to-string"
 import { Edit, Minus, Plus, Save } from "lucide-react"
 import { ExtensionSwitch } from "../molecules/extension-switch"
+import { IgnoreInputToggle } from "../molecules/ignore-input-toggle"
 import { Button } from "../ui/button"
 import { Card, CardContent } from "../ui/card"
 import { Input } from "../ui/input"
@@ -118,6 +119,8 @@ export const AdvancedSettings = () => {
 	return (
 		<div className="flex flex-col gap-3">
 			<ExtensionSwitch />
+
+			<IgnoreInputToggle />
 
 			<Tabs
 				value={state.current.mode}

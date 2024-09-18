@@ -20,6 +20,9 @@
 	"extension_switch": {
 		"message": "Enable Extension"
 	},
+	"common_ignore_input": {
+		"message": "Disable Extension in Input Fields"
+	},
 	"auto_mode_label": {
 		"message": "Auto Search"
 	},

@@ -27,6 +27,12 @@ const main = () => {
 			if (selection.length < _config.auto_minTextLength) return
 			if (selection.length > _config.auto_maxTextLength) return
 		}
+		if (
+			_config.common_ignoreInput &&
+			["INPUT", "TEXTAREA"].includes(document.activeElement?.nodeName ?? "")
+		) {
+			return
+		}
 		executeSearch(source, selection)
 	}
 

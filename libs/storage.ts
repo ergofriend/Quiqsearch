@@ -26,6 +26,7 @@ const defineItemWithKey = <T>(
 
 type ExtensionConfig = {
 	enabled: boolean
+	common_ignoreInput: boolean
 	mode: "auto" | "manual"
 	auto_minTextLength: number
 	auto_maxTextLength: number
@@ -40,6 +41,7 @@ export const extensionConfigState = defineItemWithKey<ExtensionConfig>(
 	{
 		fallback: {
 			enabled: true,
+			common_ignoreInput: true,
 			mode: "auto",
 			manual_shortcutKeys: "Ctrl + P",
 			auto_minTextLength: 3,
