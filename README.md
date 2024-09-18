@@ -13,6 +13,6 @@
 
 - [x] Rewritten with wxt
 - [ ] Extension Filter (Disable at specific sites)
-- [ ] Ignore target elements (input, textarea, etc.)
+- [x] Ignore target elements (input, textarea, etc.)
 - [ ] Not a Google search, but a search within a specific site (YouTube, X, etc.)
 - [ ] Themes
