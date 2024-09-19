@@ -23,6 +23,15 @@
 	"common_ignore_input": {
 		"message": "入力フィールドでは拡張機能を無効にする"
 	},
+	"common_filter_enable_extensions": {
+		"message": "特定のウェブサイトでカスタム検索を有効にする"
+	},
+	"common_filter_enable_youtube": {
+		"message": "YouTubeで内部検索を有効にする"
+	},
+	"common_filter_enable_x": {
+		"message": "Xで内部検索を有効にする"
+	},
 	"auto_mode_label": {
 		"message": "自動検索"
 	},

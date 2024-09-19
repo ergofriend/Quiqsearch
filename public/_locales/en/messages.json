@@ -23,6 +23,15 @@
 	"common_ignore_input": {
 		"message": "Disable Extension in Input Fields"
 	},
+	"common_filter_enable_extensions": {
+		"message": "Enable custom search in Specific websites"
+	},
+	"common_filter_enable_youtube": {
+		"message": "Enable internal search in YouTube"
+	},
+	"common_filter_enable_x": {
+		"message": "Enable internal search in X"
+	},
 	"auto_mode_label": {
 		"message": "Auto Search"
 	},

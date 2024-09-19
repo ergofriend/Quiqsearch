@@ -33,7 +33,7 @@ const main = () => {
 		) {
 			return
 		}
-		executeSearch(source, selection)
+		executeSearch(_config, source, selection)
 	}
 
 	const eventHandler = () => {

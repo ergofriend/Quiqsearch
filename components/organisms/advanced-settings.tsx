@@ -7,6 +7,7 @@ import { toString as event2String, setOptions } from "keyboard-event-to-string"
 import { Edit, Minus, Plus, Save } from "lucide-react"
 import { ExtensionSwitch } from "../molecules/extension-switch"
 import { IgnoreInputToggle } from "../molecules/ignore-input-toggle"
+import { SearchFilter } from "../molecules/search-filter"
 import { Button } from "../ui/button"
 import { Card, CardContent } from "../ui/card"
 import { Input } from "../ui/input"
@@ -121,6 +122,8 @@ export const AdvancedSettings = () => {
 			<ExtensionSwitch />
 
 			<IgnoreInputToggle />
+
+			<SearchFilter />
 
 			<Tabs
 				value={state.current.mode}

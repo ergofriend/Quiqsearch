@@ -27,6 +27,9 @@ const defineItemWithKey = <T>(
 type ExtensionConfig = {
 	enabled: boolean
 	common_ignoreInput: boolean
+	common_filter_enabledExtensions: boolean
+	common_filter_extension_YouTube: boolean
+	common_filter_extension_X: boolean
 	mode: "auto" | "manual"
 	auto_minTextLength: number
 	auto_maxTextLength: number
@@ -42,6 +45,9 @@ export const extensionConfigState = defineItemWithKey<ExtensionConfig>(
 		fallback: {
 			enabled: true,
 			common_ignoreInput: true,
+			common_filter_enabledExtensions: true,
+			common_filter_extension_YouTube: true,
+			common_filter_extension_X: true,
 			mode: "auto",
 			manual_shortcutKeys: "Ctrl + P",
 			auto_minTextLength: 3,
