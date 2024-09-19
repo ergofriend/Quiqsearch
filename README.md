@@ -18,7 +18,7 @@
 
 - [x] Rewritten with wxt
 - [x] Ignore target elements (input, textarea, etc.)
-- [ ] Additional search filter within a specific site (YouTube, X, etc.)
+- [x] Additional search filter within a specific site (YouTube, X, etc.)
 - [ ] Extension Filter (Disable at specific sites)
 - [ ] Custom search filter (eval User Script)
 - [ ] Themes
