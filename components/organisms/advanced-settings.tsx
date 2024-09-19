@@ -9,7 +9,7 @@ import { ExtensionSwitch } from "../molecules/extension-switch"
 import { IgnoreInputToggle } from "../molecules/ignore-input-toggle"
 import { SearchFilter } from "../molecules/search-filter"
 import { Button } from "../ui/button"
-import { Card, CardContent } from "../ui/card"
+import { Card, CardContent, CardHeader } from "../ui/card"
 import { Input } from "../ui/input"
 import { Label } from "../ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs"
@@ -115,88 +115,117 @@ const InputNumber = (props: {
 }
 
 export const AdvancedSettings = () => {
+	return (
+		<div className="flex gap-8 flex-wrap w-full">
+			<LeftPanel />
+			<RightPanel />
+		</div>
+	)
+}
+
+const LeftPanel = () => {
+	return (
+		<div className="flex flex-col justify-between">
+			<Card>
+				<CardContent className="pt-6">
+					<ExtensionSwitch />
+				</CardContent>
+			</Card>
+
+			<Card>
+				<CardContent className="pt-6">
+					<IgnoreInputToggle />
+				</CardContent>
+			</Card>
+
+			<Card>
+				<CardContent className="pt-6">
+					<SearchFilter />
+				</CardContent>
+			</Card>
+		</div>
+	)
+}
+
+const RightPanel = () => {
 	const state = useStorageState(extensionConfigState)
 
 	return (
-		<div className="flex flex-col gap-3">
-			<ExtensionSwitch />
-
-			<IgnoreInputToggle />
-
-			<SearchFilter />
-
-			<Tabs
-				value={state.current.mode}
-				onValueChange={(value) => {
-					if (value !== "auto" && value !== "manual") return
-					state.onChangeState({ mode: value })
-				}}
-			>
-				<TabsList>
-					<TabsTrigger value="auto">
-						{browser.i18n.getMessage("auto_mode_label")}
-					</TabsTrigger>
-					<TabsTrigger value="manual">
-						{browser.i18n.getMessage("manual_mode_label")}
-					</TabsTrigger>
-				</TabsList>
-				<AnimatePresence mode="sync">
-					<TabsContent key="auto" value="auto" className="h-60" asChild>
-						<motion.div
-							initial={{ opacity: 0 }}
-							animate={{ y: 0, opacity: 1 }}
-							exit={{ opacity: 0 }}
-							transition={{ duration: 0.5 }}
-							className="flex flex-col gap-4 pt-4"
-						>
-							<div className="grid">
-								<Label className="text-sm font-semibold">
-									{browser.i18n.getMessage("auto_mode_min_length")}
-								</Label>
-								<InputNumber
-									value={state.current.auto_minTextLength}
-									onChange={(value) =>
-										state.onChangeState({ auto_minTextLength: value })
-									}
-								/>
-							</div>
-							<div className="grid">
-								<Label className="text-sm font-semibold">
-									{browser.i18n.getMessage("auto_mode_max_length")}
-								</Label>
-								<InputNumber
-									value={state.current.auto_maxTextLength}
-									onChange={(value) =>
-										state.onChangeState({ auto_maxTextLength: value })
-									}
-								/>
-							</div>
-							<div className="grid">
-								<Label className="text-sm font-semibold">
-									{`${browser.i18n.getMessage("auto_mode_interval")} (ms)`}
-								</Label>
-								<InputNumber
-									value={state.current.auto_debounceMs}
-									onChange={(value) =>
-										state.onChangeState({ auto_debounceMs: value })
-									}
-								/>
-							</div>
-						</motion.div>
-					</TabsContent>
-					<TabsContent key="manual" value="manual" className="h-60" asChild>
-						<motion.div
-							initial={{ opacity: 0 }}
-							animate={{ y: 0, opacity: 1 }}
-							exit={{ opacity: 0 }}
-							transition={{ duration: 0.5 }}
-							className="pt-4"
-						>
-							<CommandViewer />
-						</motion.div>
-					</TabsContent>
-				</AnimatePresence>
-			</Tabs>
-		</div>
+		<Card>
+			<CardContent className="pt-6">
+				<Tabs
+					value={state.current.mode}
+					onValueChange={(value) => {
+						if (value !== "auto" && value !== "manual") return
+						state.onChangeState({ mode: value })
+					}}
+				>
+					<TabsList>
+						<TabsTrigger value="auto">
+							{browser.i18n.getMessage("auto_mode_label")}
+						</TabsTrigger>
+						<TabsTrigger value="manual">
+							{browser.i18n.getMessage("manual_mode_label")}
+						</TabsTrigger>
+					</TabsList>
+					<AnimatePresence mode="sync">
+						<TabsContent key="auto" value="auto" className="h-60" asChild>
+							<motion.div
+								initial={{ opacity: 0 }}
+								animate={{ y: 0, opacity: 1 }}
+								exit={{ opacity: 0 }}
+								transition={{ duration: 0.5 }}
+								className="flex flex-col gap-4 pt-4"
+							>
+								<div className="grid">
+									<Label className="text-sm font-semibold">
+										{browser.i18n.getMessage("auto_mode_min_length")}
+									</Label>
+									<InputNumber
+										value={state.current.auto_minTextLength}
+										onChange={(value) =>
+											state.onChangeState({ auto_minTextLength: value })
+										}
+									/>
+								</div>
+								<div className="grid">
+									<Label className="text-sm font-semibold">
+										{browser.i18n.getMessage("auto_mode_max_length")}
+									</Label>
+									<InputNumber
+										value={state.current.auto_maxTextLength}
+										onChange={(value) =>
+											state.onChangeState({ auto_maxTextLength: value })
+										}
+									/>
+								</div>
+								<div className="grid">
+									<Label className="text-sm font-semibold">
+										{`${browser.i18n.getMessage("auto_mode_interval")} (ms)`}
+									</Label>
+									<InputNumber
+										value={state.current.auto_debounceMs}
+										onChange={(value) =>
+											state.onChangeState({ auto_debounceMs: value })
+										}
+									/>
+								</div>
+							</motion.div>
+						</TabsContent>
+						<TabsContent key="manual" value="manual" className="h-60" asChild>
+							<motion.div
+								initial={{ opacity: 0 }}
+								animate={{ y: 0, opacity: 1 }}
+								exit={{ opacity: 0 }}
+								transition={{ duration: 0.5 }}
+								className="pt-4"
+							>
+								<CommandViewer />
+							</motion.div>
+						</TabsContent>
+					</AnimatePresence>
+				</Tabs>
+			</CardContent>
+		</Card>
 	)
 }
