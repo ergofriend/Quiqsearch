@@ -38,6 +38,9 @@ importers:
       '@tsparticles/slim':
         specifier: ^3.5.0
         version: 3.5.0
+      '@webext-core/messaging':
+        specifier: ^1.4.0
+        version: 1.4.0
       class-variance-authority:
         specifier: ^0.7.0
         version: 0.7.0
@@ -1122,6 +1125,9 @@ packages:
 
   '@webext-core/match-patterns@1.0.3':
     resolution: {integrity: sha512-NY39ACqCxdKBmHgw361M9pfJma8e4AZo20w9AY+5ZjIj1W2dvXC8J31G5fjfOGbulW9w4WKpT8fPooi0mLkn9A==}
+
+  '@webext-core/messaging@1.4.0':
+    resolution: {integrity: sha512-gzXQ13HfKR3Yrn9TnrvTC/5seA7uPFvaqxqNFBsFOOdSZa5LyXt58Rhym8BYXarkWUGp+fh8f6AYM3RYuNbS+A==}
 
   '@wxt-dev/module-react@1.1.1':
     resolution: {integrity: sha512-bRTHMogtT0AeyKkrHCHhfuPc8hZnbHMPAi9ynm9eRN+uH4IxSZ3rETI7qPz4dbJQua+2ci84/XyQXzw14X/1iA==}
@@ -2679,6 +2685,10 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
 
+  serialize-error@11.0.3:
+    resolution: {integrity: sha512-2G2y++21dhj2R7iHAdd0FIzjGwuKZld+7Pl/bTU6YIkrC2ZMbVUjm+luj6A6V34Rv9XfKJDKpTWu9W4Gse1D9g==}
+    engines: {node: '>=14.16'}
+
   set-value@4.1.0:
     resolution: {integrity: sha512-zTEg4HL0RwVrqcWs3ztF+x1vkxfm0lP+MQQFPiMJTKVceBwEV0A569Ou8l9IYQG8jOZdMVI1hGsc0tmeD2o/Lw==}
     engines: {node: '>=11.0'}
@@ -2997,6 +3007,9 @@ packages:
   web-ext-run@0.2.1:
     resolution: {integrity: sha512-5D11VcjdGkA1/xax5UWL0YeAbDySKHzWFe6EpsoPNUMw5Uk9tKk9p6GUOfcaI5N7sINKfBMZYNsTBiu5dzJB9A==}
     engines: {node: '>=18.0.0', npm: '>=8.0.0'}
+
+  webextension-polyfill@0.10.0:
+    resolution: {integrity: sha512-c5s35LgVa5tFaHhrZDnr3FpQpjj1BB+RXhLTYUxGqBVN460HkbM8TBtEqdXWbpTKfzwCcjAZVF7zXCYSKtcp9g==}
 
   webextension-polyfill@0.12.0:
     resolution: {integrity: sha512-97TBmpoWJEE+3nFBQ4VocyCdLKfw54rFaJ6EVQYLBCXqCIpLSZkwGgASpv4oPt9gdKCJ80RJlcmNzNn008Ag6Q==}
@@ -4026,6 +4039,11 @@ snapshots:
       is-potential-custom-element-name: 1.0.1
 
   '@webext-core/match-patterns@1.0.3': {}
+
+  '@webext-core/messaging@1.4.0':
+    dependencies:
+      serialize-error: 11.0.3
+      webextension-polyfill: 0.10.0
 
   '@wxt-dev/module-react@1.1.1(vite@5.4.0(@types/node@22.2.0))(wxt@0.19.10(@types/node@22.2.0)(rollup@4.20.0)(webpack-sources@3.2.3))':
     dependencies:
@@ -5614,6 +5632,10 @@ snapshots:
 
   semver@7.6.3: {}
 
+  serialize-error@11.0.3:
+    dependencies:
+      type-fest: 2.19.0
+
   set-value@4.1.0:
     dependencies:
       is-plain-object: 2.0.4
@@ -5962,6 +5984,8 @@ snapshots:
       - bufferutil
       - supports-color
       - utf-8-validate
+
+  webextension-polyfill@0.10.0: {}
 
   webextension-polyfill@0.12.0: {}
 

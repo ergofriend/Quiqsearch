@@ -1,4 +1,5 @@
 import type { WxtStorageItemType, extensionConfigState } from "./storage"
+import {searchMessaging} from './messaging'
 
 type ExtensionConfig = WxtStorageItemType<typeof extensionConfigState.storage>
 
@@ -52,18 +53,16 @@ const findFilter = (
 	return filter || fallbackFilter
 }
 
-export const executeSearch = (
-	config: ExtensionConfig,
-	currentTabUrl: string,
-	selectedText: string,
+export const executeSearch = async (
+  config: ExtensionConfig,
+  currentTabUrl: string,
+  selectedText: string
 ) => {
-	if (!selectedText) return
+  if (!selectedText) return
 
-	const target = findFilter(config, currentTabUrl).urlGenerator(selectedText)
-	if (typeof window !== "undefined") {
-		window.open(target, "_blank")
-	} else {
-		browser.tabs.create({ url: target })
-	}
-	console.info("executeSearch:", currentTabUrl, selectedText, target)
-}
+  const target = findFilter(config, currentTabUrl).urlGenerator(selectedText)
+
+  await searchMessaging.sendMessage("searchOnTab", { url: target })
+
+  console.info("executeSearch:", currentTabUrl, selectedText, target)
+};
