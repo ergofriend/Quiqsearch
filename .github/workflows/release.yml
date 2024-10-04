@@ -3,14 +3,14 @@ name: release
 on:
   push:
     tags:
-      - 'v[0-9]+.[0-9]+.[0-9]+'
+      - "v[0-9]+.[0-9]+.[0-9]+"
   workflow_dispatch:
     inputs:
       version:
         required: true
         type: string
         description: 'Deploy version without "v" ( ex: *.*.* )'
-        default: ''
+        default: ""
 
 jobs:
   build:
@@ -46,7 +46,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'pnpm'
+          cache: "pnpm"
       - name: Install
         run: pnpm i --frozen-lockfile
       - name: Build
