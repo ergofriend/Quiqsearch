@@ -1,0 +1,48 @@
+name: "Bump version"
+
+permissions:
+  checks: write
+  statuses: write
+  contents: write
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        required: true
+        default: "patch"
+        type: choice
+        options:
+          - major
+          - minor
+          - patch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - run: corepack enable
+      - name: Setup
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+      - name: Bump version
+        id: bump_version
+        shell: bash
+        run: |
+          pnpm version ${{ github.event.inputs.version }} --no-commit-hooks --no-git-tag-version
+          echo "VERSION=$(jq -r '.version' package.json)" >> $GITHUB_OUTPUT
+      - name: commit
+        run: |
+          gh api graphql \
+            -F $githubRepository=$GITHUB_REPOSITORY \
+            -F branchName=$BRANCH \
+            -F expectedHeadOid=$(git rev-parse HEAD) \
+            -F commitMessage=":robot: Bump version to ${{ steps.bump_version.outputs.VERSION }}" \
+            -F files[][path]="package.json" -F files[][contents]=$(base64 -w0 package.json) \
+            -F 'query=@.github/api/createCommitOnBranch.gql'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

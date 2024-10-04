@@ -1,10 +1,7 @@
-# Release
+# How to release
 
-## 1. Create a tag
+## 1. Run "Bump version" Action
 
-```sh
-git tag vX.Y.Z; git push --tags
-```
 
 ## 2. Upload the zip file to the Chrome Web Store
 
