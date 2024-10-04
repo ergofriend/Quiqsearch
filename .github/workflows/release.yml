@@ -56,3 +56,4 @@ jobs:
         with:
           tag_name: v${{ steps.variables.outputs.VERSION }}
           files: .output/*.zip
+          generate_release_notes: true
