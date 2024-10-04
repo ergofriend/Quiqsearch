@@ -1,5 +1,5 @@
+import { searchMessaging } from "./messaging"
 import type { WxtStorageItemType, extensionConfigState } from "./storage"
-import {searchMessaging} from './messaging'
 
 type ExtensionConfig = WxtStorageItemType<typeof extensionConfigState.storage>
 
@@ -54,15 +54,15 @@ const findFilter = (
 }
 
 export const executeSearch = async (
-  config: ExtensionConfig,
-  currentTabUrl: string,
-  selectedText: string
+	config: ExtensionConfig,
+	currentTabUrl: string,
+	selectedText: string,
 ) => {
-  if (!selectedText) return
+	if (!selectedText) return
 
-  const target = findFilter(config, currentTabUrl).urlGenerator(selectedText)
+	const target = findFilter(config, currentTabUrl).urlGenerator(selectedText)
 
-  await searchMessaging.sendMessage("searchOnTab", { url: target })
+	await searchMessaging.sendMessage("searchOnTab", { url: target })
 
-  console.info("executeSearch:", currentTabUrl, selectedText, target)
-};
+	console.info("executeSearch:", currentTabUrl, selectedText, target)
+}
