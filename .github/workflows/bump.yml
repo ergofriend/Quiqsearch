@@ -1,5 +1,10 @@
 name: "Bump version"
 
+permissions:
+  checks: write
+  statuses: write
+  contents: write
+
 on:
   workflow_dispatch:
     inputs:
