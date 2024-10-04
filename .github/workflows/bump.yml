@@ -35,11 +35,15 @@ jobs:
         run: |
           pnpm version ${{ github.event.inputs.version }} --no-commit-hooks --no-git-tag-version
           echo "VERSION=$(jq -r '.version' package.json)" >> $GITHUB_OUTPUT
+      - id: repository
+        run: echo "ENV=${GITHUB_REPOSITORY#${GITHUB_REPOSITORY_OWNER}/}" >> $GITHUB_OUTPUT
+      - id: branch
+        run: echo "ENV=${GITHUB_REF#refs/heads/}" >> $GITHUB_OUTPUT
       - name: commit
         run: |
           gh api graphql \
-            -F $githubRepository=$GITHUB_REPOSITORY \
-            -F branchName=$BRANCH \
+            -F $githubRepository=${{ steps.repository.outputs.ENV }} \
+            -F branchName=${{ steps.branch.outputs.ENV }} \
             -F expectedHeadOid=$(git rev-parse HEAD) \
             -F commitMessage=":robot: Bump version to ${{ steps.bump_version.outputs.VERSION }}" \
             -F files[][path]="package.json" -F files[][contents]=$(base64 -w0 package.json) \
