@@ -1,52 +1,86 @@
 name: release
 
+permissions:
+  checks: write
+  statuses: write
+  contents: write
+
 on:
-  push:
-    tags:
-      - "v[0-9]+.[0-9]+.[0-9]+"
   workflow_dispatch:
     inputs:
       version:
         required: true
-        type: string
-        description: 'Deploy version without "v" ( ex: *.*.* )'
-        default: ""
+        default: "patch"
+        type: choice
+        options:
+          - major
+          - minor
+          - patch
 
 jobs:
-  build:
+  bump:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Get version from tag
-        id: variables
-        shell: bash
-        run: |
-          VERSION=''
-          if [ "${{ github.event_name }}" = "push" ]; then
-            VERSION="${GITHUB_REF#refs/tags/v}"
-          elif [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            VERSION="${{ github.event.inputs.version }}"
-          else
-            echo "Invalid event type"
-            exit 1
-          fi
-          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
-      - name: Check same version
-        run: |
-          echo "VERSION=${{ steps.variables.outputs.VERSION }}"
-          echo "package.json version=$(jq -r '.version' package.json)"
-          if [ "${{ steps.variables.outputs.VERSION }}" != "$(jq -r '.version' package.json)" ]; then
-            echo "Version is not same"
-            exit 1
-          fi
-        shell: bash
       - run: corepack enable
       - name: Setup
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: "pnpm"
+      - name: Bump version
+        id: bump_version
+        shell: bash
+        run: |
+          pnpm version ${{ github.event.inputs.version }} --no-commit-hooks --no-git-tag-version
+          echo "VERSION=$(jq -r '.version' package.json)" >> $GITHUB_OUTPUT
+      - id: branch
+        run: echo "ENV=${GITHUB_REF#refs/heads/}" >> $GITHUB_OUTPUT
+      - name: commit
+        run: |
+          gh api graphql \
+            -F githubRepository=${{ github.repository }} \
+            -F branchName=${{ steps.branch.outputs.ENV }} \
+            -F expectedHeadOid=$(git rev-parse HEAD) \
+            -F commitMessage=":robot: Bump version to ${{ steps.bump_version.outputs.VERSION }}" \
+            -F files[][path]="package.json" -F files[][contents]=$(base64 -w0 package.json) \
+            -F 'query=@.github/api/createCommitOnBranch.gql'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    outputs:
+      BRANCH: ${{ steps.branch.outputs.ENV }}
+      VERSION: ${{ steps.bump_version.outputs.VERSION }}
+  tag:
+    needs: bump
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+      - name: Configure Git
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+      - run: git tag v${{ needs.bump.outputs.VERSION }}
+      - run: git push origin v${{ needs.bump.outputs.VERSION }}
+  build:
+    needs: [bump, tag]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+      - run: corepack enable
+      - name: Setup
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+      - id: version
+        run: echo "VERSION=$(jq -r '.version' package.json)" >> $GITHUB_OUTPUT
       - name: Install
         run: pnpm i --frozen-lockfile
       - name: Build
@@ -54,6 +88,6 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v${{ steps.variables.outputs.VERSION }}
+          tag_name: v${{ steps.version.outputs.VERSION }}
           files: .output/*.zip
           generate_release_notes: true
