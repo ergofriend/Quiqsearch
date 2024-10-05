@@ -1,6 +1,8 @@
 # How to release
 
-## 1. Run "Bump version" Action
+## 1. Run "Release" Action
+
+https://github.com/ergofriend/Quiqsearch/actions
 
 
 ## 2. Upload the zip file to the Chrome Web Store
