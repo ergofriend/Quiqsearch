@@ -17,6 +17,7 @@
 		"ci": "biome ci"
 	},
 	"dependencies": {
+		"@jitl/quickjs-singlefile-browser-release-sync": "^0.31.0",
 		"@radix-ui/react-checkbox": "^1.1.1",
 		"@radix-ui/react-label": "^2.1.0",
 		"@radix-ui/react-radio-group": "^1.2.0",
@@ -36,16 +37,20 @@
 		"keyboard-event-to-string": "^2.1.0",
 		"lucide-react": "^0.436.0",
 		"mini-svg-data-uri": "^1.4.4",
+		"quickjs-emscripten-core": "^0.31.0",
+		"quickjs-emscripten-sync": "^1.5.2",
 		"react": "^18.3.1",
 		"react-dom": "^18.3.1",
 		"tailwind-merge": "^2.5.2",
-		"tailwindcss-animate": "^1.0.7"
+		"tailwindcss-animate": "^1.0.7",
+		"whatwg-url": "^14.0.0"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.8.3",
 		"@thedutchcoder/postcss-rem-to-px": "0.0.2",
 		"@types/react": "^18.3.3",
 		"@types/react-dom": "^18.3.0",
+		"@types/whatwg-url": "^11.0.5",
 		"@wxt-dev/module-react": "^1.1.0",
 		"autoprefixer": "10.4.20",
 		"postcss": "8.4.41",
