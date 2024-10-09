@@ -4,6 +4,11 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+patchedDependencies:
+  quickjs-emscripten-sync:
+    hash: 6zeg6dztyrn7sujhflhwkil5dm
+    path: patches/quickjs-emscripten-sync.patch
+
 importers:
 
   .:
@@ -73,7 +78,7 @@ importers:
         version: 0.31.0
       quickjs-emscripten-sync:
         specifier: ^1.5.2
-        version: 1.5.2(quickjs-emscripten@0.31.0)
+        version: 1.5.2(patch_hash=6zeg6dztyrn7sujhflhwkil5dm)(quickjs-emscripten@0.31.0)
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -5588,7 +5593,7 @@ snapshots:
     dependencies:
       '@jitl/quickjs-ffi-types': 0.31.0
 
-  quickjs-emscripten-sync@1.5.2(quickjs-emscripten@0.31.0):
+  quickjs-emscripten-sync@1.5.2(patch_hash=6zeg6dztyrn7sujhflhwkil5dm)(quickjs-emscripten@0.31.0):
     dependencies:
       quickjs-emscripten: 0.31.0
 

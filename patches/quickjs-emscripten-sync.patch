@@ -1,0 +1,12 @@
+diff --git a/package.json b/package.json
+index cc88add65dcde559bb0cdda23b622c5ba0be21e8..ab5531810fa6aebd4fb5c4d6539946750e5f55e4 100644
+--- a/package.json
++++ b/package.json
+@@ -11,6 +11,7 @@
+   "sideEffects": false,
+   "exports": {
+     ".": {
++      "types": "./dist/index.d.ts",
+       "import": "./dist/quickjs-emscripten-sync.mjs",
+       "require": "./dist/quickjs-emscripten-sync.umd.js"
+     }
