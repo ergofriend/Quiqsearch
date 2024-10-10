@@ -48,3 +48,28 @@ test("RegExp(test)", async () => {
 	})
 	expect(result).toBe("https://www.google.com/search?q=Golang&ref=github.com")
 })
+
+test("RegExp(match)", async () => {
+	const inputCode = `
+	({currentTabUrl, keyword, URLSearchParams}) => {
+		const re = new RegExp("github.com\\/([^\\/]+)\\/[^\\/]+");
+		const match = currentTabUrl.match(re);
+		if (match && match[1]) {
+  		const username = match[1];
+			URLSearchParams.set("q", "user:" + username + " " + keyword);
+		}
+
+		URLSearchParams.set("type", "code");
+
+		return "https://github.com/search?" + URLSearchParams.toString()
+	}
+	`
+	const result = await evalCode({
+		currentTabUrl: "https://github.com/ergofriend/Quiqsearch",
+		keyword: "Golang",
+		code: inputCode,
+	})
+	expect(result).toBe(
+		"https://github.com/search?q=user%3Aergofriend+Golang&type=code",
+	)
+})
