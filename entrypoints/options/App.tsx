@@ -24,14 +24,18 @@ function App() {
 				</h2>
 
 				<div className="flex flex-col gap-4">
-					<h2 className="text-3xl font-semibold leading-6 py-4">基本設定</h2>
+					<h2 className="text-3xl font-semibold leading-6 py-4">
+						{browser.i18n.getMessage("basic_settings")}
+					</h2>
 					<AdvancedSettings />
 				</div>
 
 				<div className="flex flex-col gap-4">
 					<h2 className="text-3xl font-semibold leading-6 py-4">
 						{browser.i18n.getMessage("detail_settings")}
-						<span className="text-sm pl-4">カスタムフィルター</span>
+						<span className="text-sm pl-4">
+							{browser.i18n.getMessage("detail_settings_sub")}
+						</span>
 					</h2>
 
 					<CustomFilterConfig />

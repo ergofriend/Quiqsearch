@@ -27,10 +27,10 @@ const PreviewFilterConfig = () => {
 	return (
 		<div className="flex flex-col w-full bg-destructive-foreground p-4">
 			<div className="flex gap-2 w-full pb-2">
-				<Label>サンプル</Label>
-				<p>
-					任意のサイトに対して、下記のような関数を用いて遷移先のパスを組み立てることができます。
-				</p>
+				<Label>
+					{browser.i18n.getMessage("common_sample_custom_filter_1")}
+				</Label>
+				<p>{browser.i18n.getMessage("common_sample_custom_filter_2")}</p>
 			</div>
 			<div className="relative">
 				<Eye className="absolute top-4 right-4 z-10" color="white" />
@@ -67,7 +67,7 @@ const UserFilterConfig = () => {
 	const removeFilter = useCallback(
 		(i: number, _filter: Filter) => {
 			const confirmed = window.confirm(
-				`${_filter.siteRegExp} のフィルターを削除しますか？`,
+				`${_filter.siteRegExp} ${browser.i18n.getMessage("common_delete_custom_filter_confirm")}`,
 			)
 			if (!confirmed) return
 			state.onChangeState({
@@ -99,25 +99,25 @@ const UserFilterConfig = () => {
 						onClick={() => addFilter(filterConfig.YouTube)}
 					>
 						<SiYoutube className="pr-1" />
-						YouTubeのフィルターを追加する
+						{browser.i18n.getMessage("common_add_youtube_custom_filter_button")}
 					</Button>
 				)}
 				{ifNoFilter(state.current.custom_user_filters, "x.com") && (
 					<Button variant={"outline"} onClick={() => addFilter(filterConfig.X)}>
-						<SiX size={15} />
-						のフィルターを追加する
+						<SiX size={15} className="pr-1" />
+						{browser.i18n.getMessage("common_add_x_custom_filter_button")}
 					</Button>
 				)}
 				<Button onClick={() => addFilter()}>
 					<Plus />
-					新しいフィルターを追加する
+					{browser.i18n.getMessage("common_add_new_custom_filter_button")}
 				</Button>
 			</div>
 
 			<div>
 				{state.current.custom_user_filters.length === 0 && (
 					<div className="flex justify-center p-4">
-						<p>フィルターがありません。</p>
+						<p>{browser.i18n.getMessage("common_no_custom_filters")}</p>
 					</div>
 				)}
 
@@ -137,10 +137,24 @@ const UserFilterConfig = () => {
 									placeholder="new-custom-site.regexp"
 								/>
 								<p className="p-2">
-									<pre className="inline block whitespace-pre italic pr-2">
+									<pre className="inline block whitespace-pre italic bg-gray-200 px-1 rounded">
 										<code>{filter.siteRegExp}</code>
 									</pre>
-									内での遷移先をコントロールすることができます。
+									<span className="pl-1">
+										{browser.i18n.getMessage(
+											"common_about_custom_filters_regexp_1",
+										)}
+									</span>
+									（
+									<pre className="inline block whitespace-pre italic bg-gray-200 px-1 rounded">
+										<code>*</code>
+									</pre>
+									<span className="pl-1">
+										{browser.i18n.getMessage(
+											"common_about_custom_filters_regexp_2",
+										)}
+									</span>
+									）
 								</p>
 							</div>
 

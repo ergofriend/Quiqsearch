@@ -28,9 +28,9 @@ export const AdvancedSettings = () => {
 				<Card>
 					<CardContent className="pt-6">
 						<Label>
-							この拡張機能はブラウザのデフォルトの検索エンジンを使用します。
+							{browser.i18n.getMessage("common_about_custom_filter_1")}
 							<br />
-							検索エンジンを変更するには、詳細設定からカスタムフィルターを追加してください。
+							{browser.i18n.getMessage("common_about_custom_filter_2")}
 						</Label>
 					</CardContent>
 				</Card>
