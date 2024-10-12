@@ -43,7 +43,7 @@ const X = {
 }`,
 }
 
-export const filter = {
+export const filterConfig = {
 	initial,
 	YouTube,
 	X,

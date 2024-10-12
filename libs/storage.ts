@@ -3,7 +3,7 @@ import type {
 	WxtStorageItem,
 	WxtStorageItemOptions,
 } from "wxt/storage"
-import { type Filter, filter } from "./filter"
+import { type Filter, filterConfig } from "./filter"
 
 export type WxtStorageItemType<T> = T extends WxtStorageItem<
 	infer U,
@@ -51,8 +51,8 @@ export const extensionConfigState = defineItemWithKey<ExtensionConfig>(
 			common_filter_enabledExtensions: true,
 			common_filter_extension_YouTube: true,
 			common_filter_extension_X: true,
-			custom_fallback_filter: filter.initial,
-			custom_user_filters: [filter.YouTube, filter.X],
+			custom_fallback_filter: filterConfig.initial,
+			custom_user_filters: [filterConfig.YouTube, filterConfig.X],
 			mode: "auto",
 			manual_shortcutKeys: "Ctrl + P",
 			auto_minTextLength: 3,
