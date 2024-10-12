@@ -15,30 +15,28 @@ self.MonacoEnvironment = {
 }
 
 monaco.languages.typescript.typescriptDefaults.addExtraLib(`
-  "file:///node_modules/@types/whatwg-url/index.d.ts"
-  type Props =  {
-    currentTabUrl: string;
-    keyword: string;
-    URLSearchParams: URLSearchParams;
-  }
-  `)
+type Props =  {
+	currentTabUrl: string;
+	keyword: string;
+	URLSearchParams: URLSearchParams;
+}
+`)
 
 loader.config({ monaco })
 
-const defaultValue = `(props: Props): string => {
-  const { URLSearchParams, keyword } = props
-  URLSearchParams.set("q", keyword)
-  return "https://www.google.com/search?" + URLSearchParams.toString()
-}`
+type Props = {
+	defaultValue: string
+}
 
-export const CustomEditor = () => {
-	const handleEditorDidMount = useCallback<OnMount>((editor, monaco) => {
-		const constrainedInstance = constrainedEditor(monaco)
-		const model = editor.getModel()
-		constrainedInstance.initializeIn(editor)
+// TODO: save code
+export const CustomEditor = (props: Props) => {
+	const handleEditorDidMount = useCallback<OnMount>((_editor, _monaco) => {
+		const constrainedInstance = constrainedEditor(_monaco)
+		const model = _editor.getModel()
+		constrainedInstance.initializeIn(_editor)
 		constrainedInstance.addRestrictionsTo(model, [
 			{
-				range: [2, 1, 5, 1],
+				range: [2, 1, 4, 1],
 				allowMultiline: true,
 			},
 		])
@@ -50,7 +48,7 @@ export const CustomEditor = () => {
 			height="130px"
 			theme="vs-dark"
 			defaultLanguage="typescript"
-			defaultValue={defaultValue}
+			defaultValue={props.defaultValue}
 			options={{
 				minimap: { enabled: false },
 				overviewRulerBorder: false,
@@ -62,10 +60,11 @@ export const CustomEditor = () => {
 				scrollBeyondLastLine: false,
 				fontSize: 14,
 				padding: {
-					top: 10,
-					bottom: 10,
+					top: 20,
+					bottom: 20,
 				},
 				folding: false,
+				fixedOverflowWidgets: true,
 			}}
 			onChange={(value) => {
 				console.log(value)

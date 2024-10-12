@@ -1,56 +1,24 @@
+import { evalCode } from "./eval"
+import { logger } from "./logger"
 import { searchMessaging } from "./messaging"
 import type { WxtStorageItemType, extensionConfigState } from "./storage"
 
 type ExtensionConfig = WxtStorageItemType<typeof extensionConfigState.storage>
 
-type SearchFilter = {
-	siteRegExp: string
-	urlGenerator: (keyword: string) => string
-}
-
-const searchWithGoogle = (keyword: string) => {
-	const url = new URL("https://www.google.com/search")
-	url.searchParams.set("q", keyword)
-	return url.toString()
-}
-
-const fallbackFilter: SearchFilter = {
-	siteRegExp: "*",
-	urlGenerator: searchWithGoogle,
-}
-
-const extensionYouTube: SearchFilter = {
-	siteRegExp: "youtube.com",
-	urlGenerator: (keyword) => {
-		const url = new URL("https://www.youtube.com/results")
-		url.searchParams.set("search_query", keyword)
-		return url.toString()
-	},
-}
-
-const extensionX: SearchFilter = {
-	siteRegExp: "x.com",
-	urlGenerator: (keyword) => {
-		const url = new URL("https://x.com/search")
-		url.searchParams.set("q", keyword)
-		return url.toString()
-	},
-}
-
-const findFilter = (
-	config: ExtensionConfig,
-	currentTabUrl: string,
-): SearchFilter => {
-	if (!config.common_filter_enabledExtensions) return fallbackFilter
-
-	const filters = [
-		config.common_filter_extension_YouTube && extensionYouTube,
-		config.common_filter_extension_X && extensionX,
-	].filter(Boolean) as SearchFilter[]
-	const filter = filters.find((f) =>
+const findFilter = (config: ExtensionConfig, currentTabUrl: string) => {
+	const userFilter = config.custom_user_filters.find((f) =>
 		new RegExp(f.siteRegExp).test(currentTabUrl),
 	)
-	return filter || fallbackFilter
+	const filter = userFilter || config.custom_fallback_filter
+	logger.log("findFilter:", currentTabUrl, filter)
+	return {
+		generate: (keyword: string) =>
+			evalCode({
+				currentTabUrl,
+				keyword,
+				code: filter.code,
+			}),
+	}
 }
 
 export const executeSearch = async (
@@ -60,9 +28,9 @@ export const executeSearch = async (
 ) => {
 	if (!selectedText) return
 
-	const target = findFilter(config, currentTabUrl).urlGenerator(selectedText)
+	const target = await findFilter(config, currentTabUrl).generate(selectedText)
 
 	await searchMessaging.sendMessage("searchOnTab", { url: target })
 
-	console.info("executeSearch:", currentTabUrl, selectedText, target)
+	logger.info("executeSearch:", currentTabUrl, selectedText, target)
 }
