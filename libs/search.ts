@@ -10,13 +10,13 @@ const findFilter = (config: ExtensionConfig, currentTabUrl: string) => {
 		new RegExp(f.siteRegExp).test(currentTabUrl),
 	)
 	const filter = userFilter || config.custom_fallback_filter
-	logger.log("findFilter:", currentTabUrl, filter)
+	logger.debug("findFilter:", currentTabUrl, filter)
 	return {
 		generate: (keyword: string) =>
 			evalCode({
 				currentTabUrl,
 				keyword,
-				code: filter.code,
+				code: filter.rawCode,
 			}),
 	}
 }

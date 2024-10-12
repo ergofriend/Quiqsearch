@@ -1,3 +1,4 @@
+import { logger } from "@/libs/logger"
 import Editor, { loader, type OnMount } from "@monaco-editor/react"
 
 import { constrainedEditor } from "constrained-editor-plugin"
@@ -26,9 +27,9 @@ loader.config({ monaco })
 
 type Props = {
 	defaultValue: string
+	onCodeChange: (_: { editorCode: string; rawCode: string }) => void
 }
 
-// TODO: save code
 export const CustomEditor = (props: Props) => {
 	const handleEditorDidMount = useCallback<OnMount>((_editor, _monaco) => {
 		const constrainedInstance = constrainedEditor(_monaco)
@@ -67,16 +68,27 @@ export const CustomEditor = (props: Props) => {
 				fixedOverflowWidgets: true,
 			}}
 			onChange={(value) => {
-				console.log(value)
+				if (!value) throw new Error("value is undefined")
 				const a = monaco.editor.getModels()[0]
-				console.log(a.getValue())
-				monaco.languages.typescript.getTypeScriptWorker().then((worker) => {
-					worker(a.uri).then((client) => {
-						client.getEmitOutput(a.uri.toString()).then((result) => {
-							console.log(result.outputFiles[0].text)
+				monaco.languages.typescript
+					.getTypeScriptWorker()
+					.then((worker) => {
+						worker(a.uri).then((client) => {
+							client.getEmitOutput(a.uri.toString()).then((result) => {
+								if (result.outputFiles.length === 0)
+									throw new Error("outputFiles is empty")
+
+								const rawCode = result.outputFiles[0].text
+								props.onCodeChange({ editorCode: value, rawCode: rawCode })
+
+								logger.debug("editorCode:", value)
+								logger.debug("rawCode:", rawCode)
+							})
 						})
 					})
-				})
+					.catch((e) => {
+						logger.error(e)
+					})
 			}}
 		/>
 	)

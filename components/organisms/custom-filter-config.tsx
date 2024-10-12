@@ -4,7 +4,8 @@ import {
 	AccordionItem,
 	AccordionTrigger,
 } from "@/components/ui/accordion"
-import { extensionConfigState, initialFilter } from "@/libs/storage"
+import { type Filter, filter } from "@/libs/filter"
+import { extensionConfigState } from "@/libs/storage"
 import { useStorageState } from "@/libs/useStorageState"
 import { CustomEditor } from "../molecules/custom-editor"
 import { Button } from "../ui/button"
@@ -29,7 +30,7 @@ export const CustomFilterConfig = () => {
 		state.onChangeState({
 			custom_user_filters: [
 				...state.current.custom_user_filters,
-				{ ...initialFilter, siteRegExp: "" },
+				{ ...filter.initial, siteRegExp: "" },
 			],
 		})
 	}, [state])
@@ -39,6 +40,29 @@ export const CustomFilterConfig = () => {
 			state.onChangeState({
 				custom_user_filters: state.current.custom_user_filters.filter(
 					(_, index) => index !== i,
+				),
+			})
+		},
+		[state],
+	)
+
+	const handleChangeInitialFilter = useCallback(
+		(filter: Partial<Filter>) => {
+			state.onChangeState({
+				custom_fallback_filter: {
+					...state.current.custom_fallback_filter,
+					...filter,
+				},
+			})
+		},
+		[state],
+	)
+
+	const handleChangeUserFilter = useCallback(
+		(i: number) => (filter: Partial<Filter>) => {
+			state.onChangeState({
+				custom_user_filters: state.current.custom_user_filters.map(
+					(f, index) => (index === i ? { ...f, ...filter } : f),
 				),
 			})
 		},
@@ -70,7 +94,10 @@ export const CustomFilterConfig = () => {
 								<AccordionTrigger>コードを見る</AccordionTrigger>
 								<AccordionContent>
 									<CustomEditor
-										defaultValue={state.current.custom_fallback_filter.code}
+										defaultValue={
+											state.current.custom_fallback_filter.editorCode
+										}
+										onCodeChange={handleChangeInitialFilter}
 									/>
 								</AccordionContent>
 							</AccordionItem>
@@ -98,7 +125,10 @@ export const CustomFilterConfig = () => {
 								<AccordionItem value={`${i}`} className="w-full">
 									<AccordionTrigger>コードを見る</AccordionTrigger>
 									<AccordionContent>
-										<CustomEditor defaultValue={filter.code} />
+										<CustomEditor
+											defaultValue={filter.editorCode}
+											onCodeChange={handleChangeUserFilter(i)}
+										/>
 									</AccordionContent>
 								</AccordionItem>
 							</div>

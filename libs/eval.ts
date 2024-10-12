@@ -26,10 +26,13 @@ export const evalCode = async (props: {
 	}
 	arena.expose(exposed)
 
+	// To execute as an immediate function, delete the last semicolon.
+	const code = props.code.replace(/(.*)};/, "}")
+
 	const result = arena.evalCode(
-		`(${props.code})({currentTabUrl: _currentTabUrl, keyword: _keyword, URLSearchParams: _URLSearchParams})`,
+		`(${code})({currentTabUrl: _currentTabUrl, keyword: _keyword, URLSearchParams: _URLSearchParams})`,
 	)
-	logger.log("evalCode:", result)
+	logger.debug("evalCode:", result)
 
 	// Don't forget calling arena.dispose() before disposing QuickJS context!
 	arena.dispose()
