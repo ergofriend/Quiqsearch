@@ -67,18 +67,6 @@ export const extensionConfigState = defineItemWithKey<ExtensionConfig_v2>(
 		version: 2,
 		migrations: {
 			2: (_config: ExtensionConfig_v1): ExtensionConfig_v2 => {
-				const custom_user_filters: Array<Filter> = []
-
-				// copy old settings
-				if (_config.common_filter_enabledExtensions) {
-					if (_config.common_filter_extension_YouTube) {
-						custom_user_filters.push(filterConfig.YouTube)
-					}
-					if (_config.common_filter_extension_X) {
-						custom_user_filters.push(filterConfig.X)
-					}
-				}
-
 				const {
 					common_filter_enabledExtensions,
 					common_filter_extension_YouTube,
@@ -86,6 +74,17 @@ export const extensionConfigState = defineItemWithKey<ExtensionConfig_v2>(
 					// drop old settings
 					...newConfig
 				} = _config
+
+				// copy old settings
+				const custom_user_filters: Array<Filter> = []
+				if (common_filter_enabledExtensions) {
+					if (common_filter_extension_YouTube) {
+						custom_user_filters.push(filterConfig.YouTube)
+					}
+					if (common_filter_extension_X) {
+						custom_user_filters.push(filterConfig.X)
+					}
+				}
 
 				return {
 					...newConfig,
