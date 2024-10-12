@@ -28,12 +28,25 @@ export const executeSearch = async (
 ) => {
 	if (!selectedText) return
 
-	const target = await findFilter(config, currentTabUrl).generate(selectedText)
+	// try eval custom filter
+	try {
+		const target = await findFilter(config, currentTabUrl).generate(
+			selectedText,
+		)
 
-	await searchMessaging.sendMessage("searchOnTab", {
-		type: "exact",
-		url: target,
-	})
+		await searchMessaging.sendMessage("searchOnTab", {
+			type: "exact",
+			url: target,
+		})
+	} catch (error) {
+		logger.error("executeSearch:", error)
 
-	logger.info("executeSearch:", currentTabUrl, selectedText, target)
+		// fallback to auto search
+		await searchMessaging.sendMessage("searchOnTab", {
+			type: "auto",
+			keyword: selectedText,
+		})
+	}
+
+	logger.info("executeSearch:", { config, currentTabUrl, selectedText })
 }
