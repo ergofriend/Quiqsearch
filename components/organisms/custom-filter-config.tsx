@@ -56,7 +56,7 @@ const UserFilterConfig = () => {
 
 	const addFilter = useCallback(
 		(_filter?: Filter) => {
-			const newFilter = _filter ?? { ...filterConfig.initial, siteRegExp: "" }
+			const newFilter = _filter ?? filterConfig.initial
 			state.onChangeState({
 				custom_user_filters: [...state.current.custom_user_filters, newFilter],
 			})

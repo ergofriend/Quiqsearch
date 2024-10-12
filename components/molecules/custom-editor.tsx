@@ -32,20 +32,14 @@ type CustomEditorProps = {
 }
 
 export const CustomEditor = (props: CustomEditorProps) => {
-	return <CoreEditor {...props} constrainedRange={[2, 1, 4, 1]} />
+	return <CoreEditor {...props} />
 }
 
 export const PreviewEditor = () => {
-	return (
-		<CoreEditor
-			defaultValue={filterConfig.initial.editorCode}
-			constrainedRange={[2, 1, 4, 1]}
-		/>
-	)
+	return <CoreEditor defaultValue={filterConfig.initial.editorCode} />
 }
 
 type CoreEditorProps = {
-	constrainedRange?: [number, number, number, number]
 	defaultValue?: string
 	onCodeChange?: (_: { editorCode: string; rawCode: string }) => void
 }
@@ -55,15 +49,12 @@ const CoreEditor = (props: CoreEditorProps) => {
 		const constrainedInstance = constrainedEditor(_monaco)
 		const model = _editor.getModel()
 		constrainedInstance.initializeIn(_editor)
-
-		if (props.constrainedRange) {
-			constrainedInstance.addRestrictionsTo(model, [
-				{
-					range: props.constrainedRange,
-					allowMultiline: true,
-				},
-			])
-		}
+		constrainedInstance.addRestrictionsTo(model, [
+			{
+				range: [2, 1, 4, 1],
+				allowMultiline: true,
+			},
+		])
 	}, [])
 
 	return (
