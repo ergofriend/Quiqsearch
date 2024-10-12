@@ -1,15 +1,9 @@
-import {
-	Accordion,
-	AccordionContent,
-	AccordionItem,
-	AccordionTrigger,
-} from "@/components/ui/accordion"
 import { type Filter, filterConfig } from "@/libs/filter"
 import { logger } from "@/libs/logger"
 import { extensionConfigState } from "@/libs/storage"
 import { useStorageState } from "@/libs/useStorageState"
 import { SiX, SiYoutube } from "@icons-pack/react-simple-icons"
-import { Plus, Trash2 } from "lucide-react"
+import { Eye, Plus, Trash2 } from "lucide-react"
 import { CustomEditor, PreviewEditor } from "../molecules/custom-editor"
 import { Button } from "../ui/button"
 import { Card, CardContent } from "../ui/card"
@@ -34,10 +28,14 @@ const PreviewFilterConfig = () => {
 		<div className="flex flex-col w-full bg-destructive-foreground p-4">
 			<div className="flex gap-2 w-full pb-2">
 				<Label>サンプル</Label>
-				<p>任意のサイトに対して、遷移先のパスを組み立てることができます。</p>
+				<p>
+					任意のサイトに対して、下記のような関数を用いて遷移先のパスを組み立てることができます。
+				</p>
 			</div>
-
-			<PreviewEditor />
+			<div className="relative">
+				<Eye className="absolute top-4 right-4 z-10" color="white" />
+				<PreviewEditor />
+			</div>
 		</div>
 	)
 }
@@ -101,7 +99,7 @@ const UserFilterConfig = () => {
 						onClick={() => addFilter(filterConfig.YouTube)}
 					>
 						<SiYoutube className="pr-1" />
-						のフィルターを追加する
+						YouTubeのフィルターを追加する
 					</Button>
 				)}
 				{ifNoFilter(state.current.custom_user_filters, "x.com") && (
@@ -116,12 +114,13 @@ const UserFilterConfig = () => {
 				</Button>
 			</div>
 
-			<Accordion
-				type="single"
-				collapsible
-				className="w-full flex flex-col gap-4"
-				defaultValue="custom_fallback_filter"
-			>
+			<div>
+				{state.current.custom_user_filters.length === 0 && (
+					<div className="flex justify-center p-4">
+						<p>フィルターがありません。</p>
+					</div>
+				)}
+
 				{state.current.custom_user_filters.map((filter, i) => (
 					<div
 						// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
@@ -153,20 +152,13 @@ const UserFilterConfig = () => {
 							</Button>
 						</div>
 
-						<AccordionItem value={`${i}`} className="w-full">
-							<AccordionTrigger>
-								<Label>コードを見る</Label>
-							</AccordionTrigger>
-							<AccordionContent>
-								<CustomEditor
-									defaultValue={filter.editorCode}
-									onCodeChange={handleChangeUserFilter(i)}
-								/>
-							</AccordionContent>
-						</AccordionItem>
+						<CustomEditor
+							defaultValue={filter.editorCode}
+							onCodeChange={handleChangeUserFilter(i)}
+						/>
 					</div>
 				))}
-			</Accordion>
+			</div>
 		</>
 	)
 }

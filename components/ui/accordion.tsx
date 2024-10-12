@@ -1,3 +1,4 @@
+// biome-ignore lint/nursery/noRestrictedImports: <explanation>
 import * as AccordionPrimitive from "@radix-ui/react-accordion"
 import { ChevronDown } from "lucide-react"
 import * as React from "react"

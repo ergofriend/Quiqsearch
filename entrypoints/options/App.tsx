@@ -31,7 +31,9 @@ function App() {
 				<div className="flex flex-col gap-4">
 					<h2 className="text-3xl font-semibold leading-6 py-4">
 						{browser.i18n.getMessage("detail_settings")}
+						<span className="text-sm pl-4">カスタムフィルター</span>
 					</h2>
+
 					<CustomFilterConfig />
 				</div>
 
