@@ -7,7 +7,7 @@ export default defineConfig({
 		name: "__MSG_app_title__",
 		description: "__MSG_app_description__",
 		default_locale: "en",
-		permissions: ["storage"],
+		permissions: ["storage", "search"],
 		browser_specific_settings: {
 			gecko: {
 				id: "quiqsearch@kasu.dev",

@@ -30,7 +30,10 @@ export const executeSearch = async (
 
 	const target = await findFilter(config, currentTabUrl).generate(selectedText)
 
-	await searchMessaging.sendMessage("searchOnTab", { url: target })
+	await searchMessaging.sendMessage("searchOnTab", {
+		type: "exact",
+		url: target,
+	})
 
 	logger.info("executeSearch:", currentTabUrl, selectedText, target)
 }
