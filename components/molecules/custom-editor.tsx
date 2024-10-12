@@ -1,3 +1,4 @@
+import { filterConfig } from "@/libs/filter"
 import { logger } from "@/libs/logger"
 import Editor, { loader, type OnMount } from "@monaco-editor/react"
 
@@ -25,22 +26,44 @@ type Props =  {
 
 loader.config({ monaco })
 
-type Props = {
+type CustomEditorProps = {
 	defaultValue: string
 	onCodeChange: (_: { editorCode: string; rawCode: string }) => void
 }
 
-export const CustomEditor = (props: Props) => {
+export const CustomEditor = (props: CustomEditorProps) => {
+	return <CoreEditor {...props} constrainedRange={[2, 1, 4, 1]} />
+}
+
+export const PreviewEditor = () => {
+	return (
+		<CoreEditor
+			defaultValue={filterConfig.initial.editorCode}
+			constrainedRange={[2, 1, 4, 1]}
+		/>
+	)
+}
+
+type CoreEditorProps = {
+	constrainedRange?: [number, number, number, number]
+	defaultValue?: string
+	onCodeChange?: (_: { editorCode: string; rawCode: string }) => void
+}
+
+const CoreEditor = (props: CoreEditorProps) => {
 	const handleEditorDidMount = useCallback<OnMount>((_editor, _monaco) => {
 		const constrainedInstance = constrainedEditor(_monaco)
 		const model = _editor.getModel()
 		constrainedInstance.initializeIn(_editor)
-		constrainedInstance.addRestrictionsTo(model, [
-			{
-				range: [2, 1, 4, 1],
-				allowMultiline: true,
-			},
-		])
+
+		if (props.constrainedRange) {
+			constrainedInstance.addRestrictionsTo(model, [
+				{
+					range: props.constrainedRange,
+					allowMultiline: true,
+				},
+			])
+		}
 	}, [])
 
 	return (
@@ -79,7 +102,11 @@ export const CustomEditor = (props: Props) => {
 									throw new Error("outputFiles is empty")
 
 								const rawCode = result.outputFiles[0].text
-								props.onCodeChange({ editorCode: value, rawCode: rawCode })
+								if (props.onCodeChange) {
+									props.onCodeChange({ editorCode: value, rawCode: rawCode })
+								} else {
+									logger.debug("onCodeChange is undefined")
+								}
 
 								logger.debug("editorCode:", value)
 								logger.debug("rawCode:", rawCode)

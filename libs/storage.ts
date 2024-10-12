@@ -41,7 +41,6 @@ type ExtensionConfig_v1 = {
 type ExtensionConfig_v2 = {
 	enabled: boolean
 	common_ignoreInput: boolean
-	custom_fallback_filter: Filter
 	custom_user_filters: Filter[]
 	mode: "auto" | "manual"
 	auto_minTextLength: number
@@ -58,7 +57,6 @@ export const extensionConfigState = defineItemWithKey<ExtensionConfig_v2>(
 		fallback: {
 			enabled: true,
 			common_ignoreInput: true,
-			custom_fallback_filter: filterConfig.initial,
 			custom_user_filters: [],
 			mode: "auto",
 			manual_shortcutKeys: "Ctrl + P",
@@ -92,7 +90,6 @@ export const extensionConfigState = defineItemWithKey<ExtensionConfig_v2>(
 				return {
 					...newConfig,
 					// set new settings
-					custom_fallback_filter: filterConfig.initial,
 					custom_user_filters: custom_user_filters,
 				}
 			},

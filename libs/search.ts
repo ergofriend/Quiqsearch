@@ -9,14 +9,16 @@ const findFilter = (config: ExtensionConfig, currentTabUrl: string) => {
 	const userFilter = config.custom_user_filters.find((f) =>
 		new RegExp(f.siteRegExp).test(currentTabUrl),
 	)
-	const filter = userFilter || config.custom_fallback_filter
-	logger.debug("findFilter:", currentTabUrl, filter)
+
+	if (!userFilter) return null
+
+	logger.debug("findFilter:", currentTabUrl, userFilter)
 	return {
 		generate: (keyword: string) =>
 			evalCode({
 				currentTabUrl,
 				keyword,
-				code: filter.rawCode,
+				code: userFilter.rawCode,
 			}),
 	}
 }
@@ -30,16 +32,17 @@ export const executeSearch = async (
 
 	// try eval custom filter
 	try {
-		const target = await findFilter(config, currentTabUrl).generate(
-			selectedText,
-		)
+		const userFilter = findFilter(config, currentTabUrl)
 
+		if (!userFilter) throw new Error("No filter found.")
+
+		const targetUrl = await userFilter.generate(selectedText)
 		await searchMessaging.sendMessage("searchOnTab", {
 			type: "exact",
-			url: target,
+			url: targetUrl,
 		})
 	} catch (error) {
-		logger.error("executeSearch:", error)
+		logger.debug("executeSearch:", error)
 
 		// fallback to auto search
 		await searchMessaging.sendMessage("searchOnTab", {
