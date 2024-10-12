@@ -7,7 +7,6 @@ import { toString as event2String, setOptions } from "keyboard-event-to-string"
 import { Edit, Minus, Plus, Save } from "lucide-react"
 import { ExtensionSwitch } from "../molecules/extension-switch"
 import { IgnoreInputToggle } from "../molecules/ignore-input-toggle"
-import { SearchFilter } from "../molecules/search-filter"
 import { Button } from "../ui/button"
 import { Card, CardContent } from "../ui/card"
 import { Input } from "../ui/input"
@@ -125,7 +124,7 @@ export const AdvancedSettings = () => {
 
 const LeftPanel = () => {
 	return (
-		<div className="flex flex-col justify-between">
+		<div className="flex flex-col gap-4">
 			<Card>
 				<CardContent className="pt-6">
 					<ExtensionSwitch />
@@ -135,12 +134,6 @@ const LeftPanel = () => {
 			<Card>
 				<CardContent className="pt-6">
 					<IgnoreInputToggle />
-				</CardContent>
-			</Card>
-
-			<Card>
-				<CardContent className="pt-6">
-					<SearchFilter />
 				</CardContent>
 			</Card>
 		</div>
