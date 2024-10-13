@@ -3,6 +3,7 @@ import { logger } from "@/libs/logger"
 import Editor, { loader, type OnMount } from "@monaco-editor/react"
 
 import { constrainedEditor } from "constrained-editor-plugin"
+import { Expand, Minimize } from "lucide-react"
 import * as monaco from "monaco-editor"
 import editorWorker from "monaco-editor/esm/vs/editor/editor.worker?worker"
 import tsWorker from "monaco-editor/esm/vs/language/typescript/ts.worker?worker"
@@ -27,15 +28,31 @@ type CustomEditorProps = {
 
 export const CustomEditor = (props: CustomEditorProps) => {
 	const lineCount = props.defaultValue.split("\n").length
+
+	const [isExpanded, setIsExpanded] = useState(false)
+	const handleEditorSizeToggle = useCallback(
+		() => setIsExpanded((prev) => !prev),
+		[],
+	)
+
 	return (
-		<CoreEditor
-			{...props}
-			height="130px"
-			restriction={{
-				range: [2, 1, Math.max(2, lineCount), 1],
-				allowMultiline: true,
-			}}
-		/>
+		<div className="relative">
+			<CoreEditor
+				{...props}
+				height={isExpanded ? "300px" : "130px"}
+				restriction={{
+					range: [2, 1, Math.max(2, lineCount), 1],
+					allowMultiline: true,
+				}}
+			/>
+			<div className="absolute top-4 right-4 bg-transparent">
+				{isExpanded ? (
+					<Minimize color="white" onClick={handleEditorSizeToggle} />
+				) : (
+					<Expand color="white" onClick={handleEditorSizeToggle} />
+				)}
+			</div>
+		</div>
 	)
 }
 
