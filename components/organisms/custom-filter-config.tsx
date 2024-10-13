@@ -136,7 +136,7 @@ const UserFilterConfig = () => {
 									}
 									placeholder="new-custom-site.regexp"
 								/>
-								<p className="p-2">
+								<div className="p-2">
 									<pre className="inline block whitespace-pre italic bg-gray-200 px-1 rounded">
 										<code>{filter.siteRegExp}</code>
 									</pre>
@@ -155,7 +155,7 @@ const UserFilterConfig = () => {
 										)}
 									</span>
 									）
-								</p>
+								</div>
 							</div>
 
 							<Button
