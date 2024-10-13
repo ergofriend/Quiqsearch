@@ -22,7 +22,7 @@ export const InputNumber = (props: {
 				<Minus className="h-4 w-4" />
 			</Button>
 			<Input
-				className="input"
+				className="input w-16"
 				type="number"
 				value={props.value}
 				onChange={(e) => {
