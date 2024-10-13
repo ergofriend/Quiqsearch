@@ -13,7 +13,7 @@ export const useStorageState = <T,>(
 			const _state = await storageState.storage.getValue()
 			setState(_state)
 			setIsInitialized(true)
-			logger.log(storageState.key, ":init:", _state)
+			logger.debug(storageState.key, ":init:", _state)
 		}
 		init()
 
