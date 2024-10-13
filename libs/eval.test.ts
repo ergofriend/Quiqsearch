@@ -20,7 +20,7 @@ test("SkipFilterRequest", async () => {
 	const inputCode = `
 	({keyword}) => {
 		if (keyword === "Golang") {
-			return "${SkipFilterRequest}"
+			return SkipFilterRequest
 		}
 		return "https://www.google.com/search?q=" +  keyword
 	}

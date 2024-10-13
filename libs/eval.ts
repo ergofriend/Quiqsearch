@@ -2,6 +2,7 @@ import variant from "@jitl/quickjs-singlefile-browser-release-sync"
 import { newQuickJSWASMModuleFromVariant } from "quickjs-emscripten-core"
 import { Arena } from "quickjs-emscripten-sync"
 import whatwgURL from "whatwg-url"
+import { SkipFilterRequest } from "./filter"
 import { logger } from "./logger"
 
 /**
@@ -23,6 +24,7 @@ export const evalCode = async (props: {
 		_currentTabUrl: props.currentTabUrl,
 		_keyword: props.keyword,
 		_URLSearchParams: new whatwgURL.URLSearchParams(),
+		SkipFilterRequest: SkipFilterRequest,
 	}
 	arena.expose(exposed)
 
