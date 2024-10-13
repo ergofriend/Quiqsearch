@@ -3,7 +3,7 @@ import type {
 	WxtStorageItem,
 	WxtStorageItemOptions,
 } from "wxt/storage"
-import { type Filter, filterConfig } from "./filter"
+import { type Filter, defaultFilter } from "./filter"
 
 export type WxtStorageItemType<T> = T extends WxtStorageItem<
 	infer U,
@@ -79,10 +79,10 @@ export const extensionConfigState = defineItemWithKey<ExtensionConfig_v2>(
 				const custom_user_filters: Array<Filter> = []
 				if (common_filter_enabledExtensions) {
 					if (common_filter_extension_YouTube) {
-						custom_user_filters.push(filterConfig.YouTube)
+						custom_user_filters.push(defaultFilter.getYouTubeFilter())
 					}
 					if (common_filter_extension_X) {
-						custom_user_filters.push(filterConfig.X)
+						custom_user_filters.push(defaultFilter.getInitialFilter())
 					}
 				}
 

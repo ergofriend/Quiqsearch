@@ -1,4 +1,10 @@
+import { nanoid } from "nanoid"
+
 export type Filter = {
+	id: string
+} & FilterCore
+
+type FilterCore = {
 	/** Site regular expression */
 	siteRegExp: string
 	/** TypeScript code */
@@ -43,7 +49,7 @@ const initial = {
 	URLSearchParams.set("q", keyword)
 	return "https://www.google.com/search?" + URLSearchParams.toString()
 `),
-} satisfies Filter
+} satisfies FilterCore
 
 const YouTube = {
 	siteRegExp: "youtube.com",
@@ -55,7 +61,7 @@ const YouTube = {
   URLSearchParams.set("search_query", keyword)
   return "https://www.youtube.com/results?" + URLSearchParams.toString()
 `),
-} satisfies Filter
+} satisfies FilterCore
 
 const X = {
 	siteRegExp: "x.com",
@@ -67,10 +73,10 @@ const X = {
   URLSearchParams.set("q", keyword)
   return "https://x.com/search?" + URLSearchParams.toString()
 `),
-}
+} satisfies FilterCore
 
-export const filterConfig = {
-	initial,
-	YouTube,
-	X,
+export const defaultFilter = {
+	getInitialFilter: () => ({ ...initial, id: nanoid() }),
+	getYouTubeFilter: () => ({ ...YouTube, id: "official-youtube-filter" }),
+	getXFilter: () => ({ ...X, id: "official-x-filter" }),
 }

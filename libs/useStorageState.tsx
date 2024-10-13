@@ -37,9 +37,20 @@ export const useStorageState = <T,>(
 		syncSetState()
 	}, [])
 
+	const onChangeStateHandler = useCallback((setStateFunc: (_: T) => T) => {
+		const syncSetState = async (_setStateFunc: (_: T) => T) => {
+			const currentState = await storageState.storage.getValue()
+			const newState = _setStateFunc(currentState)
+			storageState.storage.setValue(newState)
+			logger.log(storageState.key, ":changed:", newState)
+		}
+		syncSetState(setStateFunc)
+	}, [])
+
 	return {
 		isInitialized,
 		current: state,
 		onChangeState,
+		onChangeStateHandler,
 	}
 }

@@ -1,5 +1,4 @@
-import { type Filter, filterConfig } from "@/libs/filter"
-import { logger } from "@/libs/logger"
+import { type Filter, defaultFilter } from "@/libs/filter"
 import { extensionConfigState } from "@/libs/storage"
 import { useStorageState } from "@/libs/useStorageState"
 import { SiX, SiYoutube } from "@icons-pack/react-simple-icons"
@@ -44,48 +43,52 @@ const UserFilterConfig = () => {
 	const state = useStorageState(extensionConfigState)
 
 	const updateFilter = useCallback(
-		(i: number, update: { siteRegExp?: string; code?: string }) => {
-			state.onChangeState({
-				custom_user_filters: state.current.custom_user_filters.map(
-					(filter, index) => (index === i ? { ...filter, ...update } : filter),
+		(id: string, update: { siteRegExp?: string; code?: string }) => {
+			state.onChangeStateHandler((prev) => ({
+				...prev,
+				custom_user_filters: prev.custom_user_filters.map((filter) =>
+					filter.id === id ? { ...filter, ...update } : filter,
 				),
-			})
+			}))
 		},
 		[state],
 	)
 
 	const addFilter = useCallback(
 		(_filter?: Filter) => {
-			const newFilter = _filter ?? filterConfig.initial
-			state.onChangeState({
-				custom_user_filters: [...state.current.custom_user_filters, newFilter],
-			})
+			const newFilter = _filter ?? defaultFilter.getInitialFilter()
+			state.onChangeStateHandler((prev) => ({
+				...prev,
+				custom_user_filters: [...prev.custom_user_filters, newFilter],
+			}))
 		},
-		[state],
+		[state.onChangeStateHandler],
 	)
 
 	const removeFilter = useCallback(
-		(i: number, _filter: Filter) => {
+		(_filter: Filter) => {
 			const confirmed = window.confirm(
 				`${_filter.siteRegExp} ${browser.i18n.getMessage("common_delete_custom_filter_confirm")}`,
 			)
 			if (!confirmed) return
-			state.onChangeState({
-				custom_user_filters: state.current.custom_user_filters.filter(
-					(_, index) => index !== i,
+			state.onChangeStateHandler((prev) => ({
+				...prev,
+				custom_user_filters: prev.custom_user_filters.filter(
+					(filter) => filter.id !== _filter.id,
 				),
-			})
+			}))
 		},
 		[state],
 	)
 
 	const handleChangeUserFilter = useCallback(
 		(i: number) => (filter: Partial<Filter>) => {
-			state.onChangeState({
-				custom_user_filters: state.current.custom_user_filters.map(
-					(f, index) => (index === i ? { ...f, ...filter } : f),
+			state.onChangeStateHandler((prev) => ({
+				...prev,
+				custom_user_filters: prev.custom_user_filters.map((f, index) =>
+					index === i ? { ...f, ...filter } : f,
 				),
-			})
+			}))
 		},
 		[state],
 	)
@@ -103,17 +106,26 @@ const UserFilterConfig = () => {
 	return (
 		<>
 			<div className="flex justify-end p-4 gap-4 items-center flex-wrap">
-				{ifNoFilter(state.current.custom_user_filters, "youtube.com") && (
+				{!hasFilter(
+					state.current.custom_user_filters,
+					defaultFilter.getYouTubeFilter(),
+				) && (
 					<Button
 						variant={"outline"}
-						onClick={() => addFilter(filterConfig.YouTube)}
+						onClick={() => addFilter(defaultFilter.getYouTubeFilter())}
 					>
 						<SiYoutube className="pr-1" />
 						{browser.i18n.getMessage("common_add_youtube_custom_filter_button")}
 					</Button>
 				)}
-				{ifNoFilter(state.current.custom_user_filters, "x.com") && (
-					<Button variant={"outline"} onClick={() => addFilter(filterConfig.X)}>
+				{!hasFilter(
+					state.current.custom_user_filters,
+					defaultFilter.getXFilter(),
+				) && (
+					<Button
+						variant={"outline"}
+						onClick={() => addFilter(defaultFilter.getXFilter())}
+					>
 						<SiX size={15} className="pr-1" />
 						{browser.i18n.getMessage("common_add_x_custom_filter_button")}
 					</Button>
@@ -126,11 +138,7 @@ const UserFilterConfig = () => {
 
 			<div className="flex flex-col gap-4">
 				{state.current.custom_user_filters.map((filter, i) => (
-					<div
-						// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-						key={i}
-						className="w-full bg-destructive-foreground p-4"
-					>
+					<div key={filter.id} className="w-full bg-destructive-foreground p-4">
 						<div className="flex gap-2">
 							<div className="flex flex-col gap-2 justify-center">
 								<Button
@@ -153,14 +161,14 @@ const UserFilterConfig = () => {
 									<Input
 										value={filter.siteRegExp}
 										onChange={(e) =>
-											updateFilter(i, { siteRegExp: e.target.value })
+											updateFilter(filter.id, { siteRegExp: e.target.value })
 										}
 										placeholder="new-custom-site.regexp"
 									/>
 
 									<Button
 										variant={"outline"}
-										onClick={() => removeFilter(i, filter)}
+										onClick={() => removeFilter(filter)}
 									>
 										<Trash2 size={20} color="red" />
 									</Button>
@@ -188,6 +196,7 @@ const UserFilterConfig = () => {
 								</div>
 
 								<CustomEditor
+									key={filter.id}
 									defaultValue={filter.editorCode}
 									onCodeChange={handleChangeUserFilter(i)}
 								/>
@@ -210,19 +219,6 @@ const UserFilterConfig = () => {
 	)
 }
 
-const ifNoFilter = (currentFilters: Filter[], site: string) => {
-	if (currentFilters.length === 0) return true
-
-	try {
-		return !currentFilters.some(
-			(filter) =>
-				filter.siteRegExp !== "" &&
-				filter.siteRegExp !== "*" &&
-				new RegExp(filter.siteRegExp).test(site),
-		)
-	} catch (error) {
-		logger.error(error)
-	}
-
-	return false
+const hasFilter = (currentFilters: Filter[], filter: Filter) => {
+	return currentFilters.some((f) => f.id === filter.id)
 }
