@@ -1,9 +1,10 @@
 import { expect, test } from "vitest"
 import { evalCode } from "./eval"
+import { SkipFilterRequest } from "./filter"
 
 test("raw", async () => {
 	const inputCode = `
-	({target, keyword}) => {
+	({keyword}) => {
 		return "https://www.google.com/search?q=" +  keyword
 	}
 	`
@@ -13,6 +14,24 @@ test("raw", async () => {
 		code: inputCode,
 	})
 	expect(result).toBe("https://www.google.com/search?q=Golang")
+})
+
+test("SkipFilterRequest", async () => {
+	const inputCode = `
+	({keyword}) => {
+		if (keyword === "Golang") {
+			return "${SkipFilterRequest}"
+		}
+		return "https://www.google.com/search?q=" +  keyword
+	}
+	`
+
+	const result = await evalCode({
+		currentTabUrl: "",
+		keyword: "Golang",
+		code: inputCode,
+	})
+	expect(result).toBe(SkipFilterRequest)
 })
 
 test("URLSearchParams", async () => {

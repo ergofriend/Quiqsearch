@@ -33,7 +33,12 @@ const main = () => {
 		) {
 			return
 		}
-		executeSearch(_config, source, selection)
+
+		executeSearch({
+			config: _config,
+			currentTabUrl: source,
+			keyword: selection,
+		})
 	}
 
 	const eventHandler = () => {

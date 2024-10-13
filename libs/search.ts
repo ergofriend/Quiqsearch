@@ -1,55 +1,74 @@
 import { evalCode } from "./eval"
+import { SkipFilterRequest } from "./filter"
 import { logger } from "./logger"
 import { searchMessaging } from "./messaging"
 import type { WxtStorageItemType, extensionConfigState } from "./storage"
 
 type ExtensionConfig = WxtStorageItemType<typeof extensionConfigState.storage>
 
-const findFilter = (config: ExtensionConfig, currentTabUrl: string) => {
-	const userFilter = config.custom_user_filters.find((f) =>
-		new RegExp(f.siteRegExp).test(currentTabUrl),
-	)
-
-	if (!userFilter) return null
-
-	logger.debug("findFilter:", currentTabUrl, userFilter)
-	return {
-		generate: (keyword: string) =>
-			evalCode({
-				currentTabUrl,
-				keyword,
-				code: userFilter.rawCode,
-			}),
-	}
+type ExecuteProps = {
+	config: ExtensionConfig
+	currentTabUrl: string
+	keyword: string
 }
 
-export const executeSearch = async (
-	config: ExtensionConfig,
-	currentTabUrl: string,
-	selectedText: string,
-) => {
-	if (!selectedText) return
+export const executeSearch = async ({
+	config,
+	currentTabUrl,
+	keyword,
+}: ExecuteProps) => {
+	if (!keyword) return
 
 	// try eval custom filter
 	try {
-		const userFilter = findFilter(config, currentTabUrl)
+		const targetUrl = await _executeFilter({ config, currentTabUrl, keyword })
 
-		if (!userFilter) throw new Error("No filter found.")
+		if (!targetUrl) {
+			throw new Error("filter is not matched")
+		}
 
-		const targetUrl = await userFilter.generate(selectedText)
 		await searchMessaging.sendMessage("searchOnTab", {
 			type: "exact",
 			url: targetUrl,
 		})
+		logger.info("executeSearch:exact:", { targetUrl })
 	} catch (error) {
-		logger.debug("executeSearch:", error)
+		logger.error("executeSearch:error:", error)
 
 		// fallback to auto search
 		await searchMessaging.sendMessage("searchOnTab", {
 			type: "auto",
-			keyword: selectedText,
+			keyword: keyword,
 		})
+		logger.info("executeSearch:auto:", { keyword })
+	}
+}
+
+const _executeFilter = async ({
+	config,
+	currentTabUrl,
+	keyword,
+}: ExecuteProps): Promise<string | null> => {
+	for (const filter of config.custom_user_filters) {
+		if (
+			filter.siteRegExp === "*" ||
+			new RegExp(filter.siteRegExp).test(currentTabUrl)
+		) {
+			logger.debug("_executeFilter:filter:", filter)
+
+			const result = await evalCode({
+				currentTabUrl,
+				keyword,
+				code: filter.rawCode,
+			})
+
+			logger.debug("_executeFilter:result:", result)
+
+			if (result !== SkipFilterRequest) {
+				return result
+			}
+		}
 	}
 
-	logger.info("executeSearch:", { config, currentTabUrl, selectedText })
+	return null
 }
