@@ -125,12 +125,6 @@ const UserFilterConfig = () => {
 			</div>
 
 			<div className="flex flex-col gap-4">
-				{state.current.custom_user_filters.length === 0 && (
-					<div className="flex justify-center p-4">
-						<p>{browser.i18n.getMessage("common_no_custom_filters")}</p>
-					</div>
-				)}
-
 				{state.current.custom_user_filters.map((filter, i) => (
 					<div
 						// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
@@ -201,6 +195,16 @@ const UserFilterConfig = () => {
 						</div>
 					</div>
 				))}
+
+				{state.current.custom_user_filters.length === 0 ? (
+					<div className="flex justify-center p-4">
+						<p>{browser.i18n.getMessage("common_no_custom_filters")}</p>
+					</div>
+				) : (
+					<div className="flex justify-center p-4">
+						<p>{browser.i18n.getMessage("common_has_custom_filters")}</p>
+					</div>
+				)}
 			</div>
 		</>
 	)

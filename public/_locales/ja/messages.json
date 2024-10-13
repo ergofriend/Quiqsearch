@@ -54,7 +54,10 @@
 		"message": "新しいフィルターを追加する"
 	},
 	"common_no_custom_filters": {
-		"message": "フィルターがありません。"
+		"message": "フィルターがありません。常にブラウザのデフォルトの検索エンジンが使われます。"
+	},
+	"common_has_custom_filters": {
+		"message": "上から順にフィルターが適応されます。いずれにも当てはまらなければ、ブラウザのデフォルトの検索エンジンが使われます。"
 	},
 	"common_about_custom_filters_regexp_1": {
 		"message": "内での遷移先をコントロールすることができます。"

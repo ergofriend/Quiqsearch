@@ -54,7 +54,10 @@
 		"message": "Add a new filter"
 	},
 	"common_no_custom_filters": {
-		"message": "There is no filter."
+		"message": "There is no filter. The browser's default search engine is always used."
+	},
+	"common_has_custom_filters": {
+		"message": "The filters are applied in order from the top. If none of them apply, the browser's default search engine is used."
 	},
 	"common_about_custom_filters_regexp_1": {
 		"message": "You can control the destination of the transition within."
