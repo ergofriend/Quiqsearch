@@ -137,7 +137,7 @@ const UserFilterConfig = () => {
 						key={i}
 						className="w-full bg-destructive-foreground p-4"
 					>
-						<div className="flex w-full gap-2">
+						<div className="flex gap-2">
 							<div className="flex flex-col gap-2 justify-center">
 								<Button
 									size={"sm"}
@@ -154,37 +154,15 @@ const UserFilterConfig = () => {
 									<ChevronDown />
 								</Button>
 							</div>
-							<div className="flex flex-col  w-full">
+							<div className="flex flex-col w-full">
 								<div className="flex gap-2 w-full">
-									<div className="w-full">
-										<Input
-											value={filter.siteRegExp}
-											onChange={(e) =>
-												updateFilter(i, { siteRegExp: e.target.value })
-											}
-											placeholder="new-custom-site.regexp"
-										/>
-										<div className="p-2">
-											<pre className="inline block whitespace-pre italic bg-gray-200 px-1 rounded">
-												<code>{filter.siteRegExp}</code>
-											</pre>
-											<span className="pl-1">
-												{browser.i18n.getMessage(
-													"common_about_custom_filters_regexp_1",
-												)}
-											</span>
-											（
-											<pre className="inline block whitespace-pre italic bg-gray-200 px-1 rounded">
-												<code>*</code>
-											</pre>
-											<span className="pl-1">
-												{browser.i18n.getMessage(
-													"common_about_custom_filters_regexp_2",
-												)}
-											</span>
-											）
-										</div>
-									</div>
+									<Input
+										value={filter.siteRegExp}
+										onChange={(e) =>
+											updateFilter(i, { siteRegExp: e.target.value })
+										}
+										placeholder="new-custom-site.regexp"
+									/>
 
 									<Button
 										variant={"outline"}
@@ -192,6 +170,27 @@ const UserFilterConfig = () => {
 									>
 										<Trash2 size={20} color="red" />
 									</Button>
+								</div>
+
+								<div className="p-2">
+									<pre className="inline block whitespace-pre italic bg-gray-200 px-1 rounded">
+										<code>{filter.siteRegExp}</code>
+									</pre>
+									<span className="pl-1">
+										{browser.i18n.getMessage(
+											"common_about_custom_filters_regexp_1",
+										)}
+									</span>
+									（
+									<pre className="inline block whitespace-pre italic bg-gray-200 px-1 rounded">
+										<code>*</code>
+									</pre>
+									<span className="pl-1">
+										{browser.i18n.getMessage(
+											"common_about_custom_filters_regexp_2",
+										)}
+									</span>
+									）
 								</div>
 
 								<CustomEditor
