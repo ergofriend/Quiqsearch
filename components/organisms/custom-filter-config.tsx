@@ -3,7 +3,7 @@ import { logger } from "@/libs/logger"
 import { extensionConfigState } from "@/libs/storage"
 import { useStorageState } from "@/libs/useStorageState"
 import { SiX, SiYoutube } from "@icons-pack/react-simple-icons"
-import { Eye, Plus, Trash2 } from "lucide-react"
+import { ChevronDown, ChevronUp, Eye, Plus, Trash2 } from "lucide-react"
 import { CustomEditor, PreviewEditor } from "../molecules/custom-editor"
 import { Button } from "../ui/button"
 import { Card, CardContent } from "../ui/card"
@@ -90,6 +90,16 @@ const UserFilterConfig = () => {
 		[state],
 	)
 
+	const handleReorderUserFilter = useCallback(
+		(from: number, to: number) => {
+			const filters = [...state.current.custom_user_filters]
+			const [removed] = filters.splice(from, 1)
+			filters.splice(to, 0, removed)
+			state.onChangeState({ custom_user_filters: filters })
+		},
+		[state],
+	)
+
 	return (
 		<>
 			<div className="flex justify-end p-4 gap-4 items-center flex-wrap">
@@ -114,7 +124,7 @@ const UserFilterConfig = () => {
 				</Button>
 			</div>
 
-			<div>
+			<div className="flex flex-col gap-4">
 				{state.current.custom_user_filters.length === 0 && (
 					<div className="flex justify-center p-4">
 						<p>{browser.i18n.getMessage("common_no_custom_filters")}</p>
@@ -125,51 +135,71 @@ const UserFilterConfig = () => {
 					<div
 						// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
 						key={i}
-						className="flex flex-col w-full bg-destructive-foreground p-4"
+						className="w-full bg-destructive-foreground p-4"
 					>
-						<div className="flex gap-2 w-full">
-							<div className="w-full">
-								<Input
-									value={filter.siteRegExp}
-									onChange={(e) =>
-										updateFilter(i, { siteRegExp: e.target.value })
-									}
-									placeholder="new-custom-site.regexp"
-								/>
-								<div className="p-2">
-									<pre className="inline block whitespace-pre italic bg-gray-200 px-1 rounded">
-										<code>{filter.siteRegExp}</code>
-									</pre>
-									<span className="pl-1">
-										{browser.i18n.getMessage(
-											"common_about_custom_filters_regexp_1",
-										)}
-									</span>
-									（
-									<pre className="inline block whitespace-pre italic bg-gray-200 px-1 rounded">
-										<code>*</code>
-									</pre>
-									<span className="pl-1">
-										{browser.i18n.getMessage(
-											"common_about_custom_filters_regexp_2",
-										)}
-									</span>
-									）
-								</div>
+						<div className="flex w-full gap-2">
+							<div className="flex flex-col gap-2 justify-center">
+								<Button
+									size={"sm"}
+									disabled={i === 0}
+									onClick={() => handleReorderUserFilter(i, i - 1)}
+								>
+									<ChevronUp />
+								</Button>
+								<Button
+									size={"sm"}
+									disabled={i === state.current.custom_user_filters.length - 1}
+									onClick={() => handleReorderUserFilter(i, i + 1)}
+								>
+									<ChevronDown />
+								</Button>
 							</div>
+							<div className="flex flex-col  w-full">
+								<div className="flex gap-2 w-full">
+									<div className="w-full">
+										<Input
+											value={filter.siteRegExp}
+											onChange={(e) =>
+												updateFilter(i, { siteRegExp: e.target.value })
+											}
+											placeholder="new-custom-site.regexp"
+										/>
+										<div className="p-2">
+											<pre className="inline block whitespace-pre italic bg-gray-200 px-1 rounded">
+												<code>{filter.siteRegExp}</code>
+											</pre>
+											<span className="pl-1">
+												{browser.i18n.getMessage(
+													"common_about_custom_filters_regexp_1",
+												)}
+											</span>
+											（
+											<pre className="inline block whitespace-pre italic bg-gray-200 px-1 rounded">
+												<code>*</code>
+											</pre>
+											<span className="pl-1">
+												{browser.i18n.getMessage(
+													"common_about_custom_filters_regexp_2",
+												)}
+											</span>
+											）
+										</div>
+									</div>
 
-							<Button
-								variant={"outline"}
-								onClick={() => removeFilter(i, filter)}
-							>
-								<Trash2 size={20} color="red" />
-							</Button>
+									<Button
+										variant={"outline"}
+										onClick={() => removeFilter(i, filter)}
+									>
+										<Trash2 size={20} color="red" />
+									</Button>
+								</div>
+
+								<CustomEditor
+									defaultValue={filter.editorCode}
+									onCodeChange={handleChangeUserFilter(i)}
+								/>
+							</div>
 						</div>
-
-						<CustomEditor
-							defaultValue={filter.editorCode}
-							onCodeChange={handleChangeUserFilter(i)}
-						/>
 					</div>
 				))}
 			</div>
