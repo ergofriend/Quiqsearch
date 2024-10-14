@@ -197,11 +197,11 @@ export const Beam = ({
 						y2: 0,
 					}}
 					transition={{
-						duration: hovered ? 0.5 : (duration ?? 2),
+						duration: hovered ? 0.5 : duration ?? 2,
 						ease: "linear",
 						repeat: Number.POSITIVE_INFINITY,
 						delay: hovered ? Math.random() * (1 - 0.2) + 0.2 : 0,
-						repeatDelay: hovered ? Math.random() * (2 - 1) + 1 : (delay ?? 1),
+						repeatDelay: hovered ? Math.random() * (2 - 1) + 1 : delay ?? 1,
 					}}
 				>
 					<stop stopColor="#2EB9DF" stopOpacity="0" />
