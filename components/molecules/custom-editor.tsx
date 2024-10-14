@@ -1,13 +1,34 @@
 import { FilterType, PreviewFilterCode } from "@/libs/filter"
 import { logger } from "@/libs/logger"
 import Editor, { loader, type OnMount } from "@monaco-editor/react"
-
 import { constrainedEditor } from "constrained-editor-plugin"
 import { Expand, Minimize } from "lucide-react"
-import * as monaco from "monaco-editor"
+import { useCallback, useRef, useState } from "react"
+
+import * as monaco from "monaco-editor/esm/vs/editor/editor.api"
 import editorWorker from "monaco-editor/esm/vs/editor/editor.worker?worker"
 import tsWorker from "monaco-editor/esm/vs/language/typescript/ts.worker?worker"
-import { useCallback, useRef, useState } from "react"
+import "monaco-editor/esm/vs/editor/browser/widget/codeEditor/codeEditorWidget"
+import "monaco-editor/esm/vs/language/typescript/tsMode"
+import "monaco-editor/esm/vs/language/typescript/monaco.contribution"
+import "monaco-editor/esm/vs/base/common/worker/simpleWorker"
+import "monaco-editor/esm/vs/base/browser/defaultWorkerFactory"
+import "monaco-editor/esm/vs/editor/contrib/wordOperations/browser/wordOperations"
+import "monaco-editor/esm/vs/editor/contrib/linesOperations/browser/linesOperations"
+// import "monaco-editor/esm/vs/editor/contrib/folding/browser/folding"
+import "monaco-editor/esm/vs/editor/browser/coreCommands"
+import "monaco-editor/esm/vs/editor/contrib/suggest/browser/suggestController"
+import "monaco-editor/esm/vs/editor/contrib/hover/browser/hoverContribution"
+import "monaco-editor/esm/vs/editor/contrib/parameterHints/browser/parameterHints"
+import "monaco-editor/esm/vs/editor/contrib/bracketMatching/browser/bracketMatching"
+import "monaco-editor/esm/vs/editor/contrib/codeAction/browser/codeAction"
+import "monaco-editor/esm/vs/editor/contrib/codeAction/browser/codeActionCommands"
+import "monaco-editor/esm/vs/editor/contrib/codeAction/browser/codeActionContributions"
+import "monaco-editor/esm/vs/editor/contrib/codeAction/browser/codeActionMenu"
+import "monaco-editor/esm/vs/editor/contrib/codeAction/browser/codeActionModel"
+import "monaco-editor/esm/vs/editor/standalone/browser/inspectTokens/inspectTokens"
+import "monaco-editor/esm/vs/basic-languages/javascript/javascript.contribution"
+import "monaco-editor/esm/vs/basic-languages/typescript/typescript.contribution"
 
 self.MonacoEnvironment = {
 	getWorker(_, label) {
@@ -113,7 +134,7 @@ const CoreEditor = (props: CoreEditorProps) => {
 					top: 20,
 					bottom: 20,
 				},
-				folding: false,
+				// folding: false,
 				fixedOverflowWidgets: true,
 			}}
 			onChange={(value) => {
