@@ -3,6 +3,7 @@ import { BasicSettings } from "@/components/organisms/basic-settings"
 import { Button } from "@/components/ui/button"
 import { Settings } from "lucide-react"
 import "./App.css"
+import { browser } from "wxt/browser"
 
 const handleOpenOptionsPage = () => {
 	browser.runtime.openOptionsPage().catch((error) => {

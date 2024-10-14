@@ -1,3 +1,4 @@
+// biome-ignore lint/nursery/noRestrictedImports: <explanation>
 import * as SeparatorPrimitive from "@radix-ui/react-separator"
 import * as React from "react"
 

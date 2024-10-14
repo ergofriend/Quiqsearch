@@ -1,7 +1,9 @@
 import { DotBackground } from "@/components/molecules/background"
 import { AdvancedSettings } from "@/components/organisms/advanced-settings"
+import { CustomFilterConfig } from "@/components/organisms/custom-filter-config"
 import { Card, CardContent } from "@/components/ui/card"
 import { Cover } from "@/components/ui/cover"
+import { browser } from "wxt/browser"
 
 function App() {
 	return (
@@ -24,9 +26,20 @@ function App() {
 
 				<div className="flex flex-col gap-4">
 					<h2 className="text-3xl font-semibold leading-6 py-4">
-						{browser.i18n.getMessage("detail_settings")}
+						{browser.i18n.getMessage("basic_settings")}
 					</h2>
 					<AdvancedSettings />
+				</div>
+
+				<div className="flex flex-col gap-4">
+					<h2 className="text-3xl font-semibold leading-6 py-4">
+						{browser.i18n.getMessage("detail_settings")}
+						<span className="text-sm pl-4">
+							{browser.i18n.getMessage("detail_settings_sub")}
+						</span>
+					</h2>
+
+					<CustomFilterConfig />
 				</div>
 
 				<div className="flex flex-col gap-2">

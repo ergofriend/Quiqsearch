@@ -1,6 +1,5 @@
 import { logger } from "@/libs/logger"
 import { executeSearch } from "@/libs/search"
-
 import {
 	type WxtStorageItemType,
 	extensionConfigState,
@@ -8,6 +7,7 @@ import {
 } from "@/libs/storage"
 import { debounce } from "es-toolkit"
 import hotkeys from "hotkeys-js"
+import { defineContentScript } from "wxt/sandbox"
 
 type ExtensionConfig = WxtStorageItemType<typeof extensionConfigState.storage>
 
@@ -33,7 +33,12 @@ const main = () => {
 		) {
 			return
 		}
-		executeSearch(_config, source, selection)
+
+		executeSearch({
+			config: _config,
+			currentTabUrl: source,
+			keyword: selection,
+		})
 	}
 
 	const eventHandler = () => {

@@ -1,3 +1,4 @@
+import { useCallback, useEffect, useState } from "react"
 import { logger } from "./logger"
 import type { WxtStorageItemWithKey } from "./storage"
 
@@ -13,7 +14,7 @@ export const useStorageState = <T,>(
 			const _state = await storageState.storage.getValue()
 			setState(_state)
 			setIsInitialized(true)
-			logger.log(storageState.key, ":init:", _state)
+			logger.debug(storageState.key, ":init:", _state)
 		}
 		init()
 
@@ -22,24 +23,41 @@ export const useStorageState = <T,>(
 			logger.log(storageState.key, ":synced:", _state)
 		})
 		return () => unwatch()
-	}, [setIsInitialized, setState])
+	}, [defaultState, storageState])
 
-	const onChangeState = useCallback((_state: Partial<T>) => {
-		const syncSetState = async () => {
-			const currentState = await storageState.storage.getValue()
-			const newState = {
-				...currentState,
-				..._state,
+	const onChangeState = useCallback(
+		(_state: Partial<T>) => {
+			const syncSetState = async () => {
+				const currentState = await storageState.storage.getValue()
+				const newState = {
+					...currentState,
+					..._state,
+				}
+				storageState.storage.setValue(newState)
+				logger.log(storageState.key, ":changed:", newState)
 			}
-			storageState.storage.setValue(newState)
-			logger.log(storageState.key, ":changed:", newState)
-		}
-		syncSetState()
-	}, [])
+			syncSetState()
+		},
+		[storageState],
+	)
+
+	const onChangeStateHandler = useCallback(
+		(setStateFunc: (_: T) => T) => {
+			const syncSetState = async (_setStateFunc: (_: T) => T) => {
+				const currentState = await storageState.storage.getValue()
+				const newState = _setStateFunc(currentState)
+				storageState.storage.setValue(newState)
+				logger.log(storageState.key, ":changed:", newState)
+			}
+			syncSetState(setStateFunc)
+		},
+		[storageState],
+	)
 
 	return {
 		isInitialized,
 		current: state,
 		onChangeState,
+		onChangeStateHandler,
 	}
 }

@@ -1,24 +1,24 @@
 # ref: https://dev.to/0xdbe/github-signing-commit-in-a-workflow-98p
 mutation (
-  $githubRepository: String!
-  $branchName: String!
-  $expectedHeadOid: GitObjectID!
-  $commitMessage: String!
-  $files: [FileAddition!]!
+	$githubRepository: String!
+	$branchName: String!
+	$expectedHeadOid: GitObjectID!
+	$commitMessage: String!
+	$files: [FileAddition!]!
 ) {
-  createCommitOnBranch(
-    input: {
-      branch: {
-        repositoryNameWithOwner: $githubRepository
-        branchName: $branchName
-      }
-      message: { headline: $commitMessage }
-      fileChanges: { additions: $files }
-      expectedHeadOid: $expectedHeadOid
-    }
-  ) {
-    commit {
-      url
-    }
-  }
+	createCommitOnBranch(
+		input: {
+			branch: {
+				repositoryNameWithOwner: $githubRepository
+				branchName: $branchName
+			}
+			message: { headline: $commitMessage }
+			fileChanges: { additions: $files }
+			expectedHeadOid: $expectedHeadOid
+		}
+	) {
+		commit {
+			url
+		}
+	}
 }

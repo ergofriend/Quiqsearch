@@ -1,5 +1,6 @@
 import { extensionConfigState } from "@/libs/storage"
 import { useStorageState } from "@/libs/useStorageState"
+import { browser } from "wxt/browser"
 import { Label } from "../ui/label"
 import { Switch } from "../ui/switch"
 

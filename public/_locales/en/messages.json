@@ -14,8 +14,14 @@
 	"option_description_3": {
 		"message": "on the Web"
 	},
+	"basic_settings": {
+		"message": "Basic Settings"
+	},
 	"detail_settings": {
 		"message": "Advanced Settings"
+	},
+	"detail_settings_sub": {
+		"message": "Custom Filters"
 	},
 	"extension_switch": {
 		"message": "Enable Extension"
@@ -23,14 +29,41 @@
 	"common_ignore_input": {
 		"message": "Disable Extension in Input Fields"
 	},
-	"common_filter_enable_extensions": {
-		"message": "Enable custom search in Specific websites"
+	"common_about_custom_filter_1": {
+		"message": "This extension uses the browser's default search engine."
 	},
-	"common_filter_enable_youtube": {
-		"message": "Enable internal search in YouTube"
+	"common_about_custom_filter_2": {
+		"message": "To change the search engine, please add a custom filter from the advanced settings."
 	},
-	"common_filter_enable_x": {
-		"message": "Enable internal search in X"
+	"common_sample_custom_filter_1": {
+		"message": "Sample"
+	},
+	"common_sample_custom_filter_2": {
+		"message": "You can use the following functions to construct the path to the destination for any site."
+	},
+	"common_delete_custom_filter_confirm": {
+		"message": "Do you want to delete this filter?"
+	},
+	"common_add_youtube_custom_filter_button": {
+		"message": "Add YouTube filters"
+	},
+	"common_add_x_custom_filter_button": {
+		"message": "Add X filter"
+	},
+	"common_add_new_custom_filter_button": {
+		"message": "Add a new filter"
+	},
+	"common_no_custom_filters": {
+		"message": "There is no filter. The browser's default search engine is always used."
+	},
+	"common_has_custom_filters": {
+		"message": "The filters are applied in order from the top. If none of them apply, the browser's default search engine is used."
+	},
+	"common_about_custom_filters_regexp_1": {
+		"message": "You can control the destination of the transition within."
+	},
+	"common_about_custom_filters_regexp_2": {
+		"message": "If this is specified, it will match all sites."
 	},
 	"auto_mode_label": {
 		"message": "Auto Search"

@@ -1,68 +1,74 @@
+import { evalCode } from "./eval"
+import { SkipFilterRequest } from "./filter"
+import { logger } from "./logger"
 import { searchMessaging } from "./messaging"
 import type { WxtStorageItemType, extensionConfigState } from "./storage"
 
 type ExtensionConfig = WxtStorageItemType<typeof extensionConfigState.storage>
 
-type SearchFilter = {
-	siteRegExp: string
-	urlGenerator: (keyword: string) => string
+type ExecuteProps = {
+	config: ExtensionConfig
+	currentTabUrl: string
+	keyword: string
 }
 
-const searchWithGoogle = (keyword: string) => {
-	const url = new URL("https://www.google.com/search")
-	url.searchParams.set("q", keyword)
-	return url.toString()
+export const executeSearch = async ({
+	config,
+	currentTabUrl,
+	keyword,
+}: ExecuteProps) => {
+	if (!keyword) return
+
+	// try eval custom filter
+	try {
+		const targetUrl = await _executeFilter({ config, currentTabUrl, keyword })
+
+		if (!targetUrl) {
+			throw new Error("filter is not matched")
+		}
+
+		await searchMessaging.sendMessage("searchOnTab", {
+			type: "exact",
+			url: targetUrl,
+		})
+		logger.info("executeSearch:exact:", { targetUrl })
+	} catch (error) {
+		logger.error("executeSearch:error:", error)
+
+		// fallback to auto search
+		await searchMessaging.sendMessage("searchOnTab", {
+			type: "auto",
+			keyword: keyword,
+		})
+		logger.info("executeSearch:auto:", { keyword })
+	}
 }
 
-const fallbackFilter: SearchFilter = {
-	siteRegExp: "*",
-	urlGenerator: searchWithGoogle,
-}
+const _executeFilter = async ({
+	config,
+	currentTabUrl,
+	keyword,
+}: ExecuteProps): Promise<string | null> => {
+	for (const filter of config.custom_user_filters) {
+		if (
+			filter.siteRegExp === "*" ||
+			new RegExp(filter.siteRegExp).test(currentTabUrl)
+		) {
+			logger.debug("_executeFilter:filter:", filter)
 
-const extensionYouTube: SearchFilter = {
-	siteRegExp: "youtube.com",
-	urlGenerator: (keyword) => {
-		const url = new URL("https://www.youtube.com/results")
-		url.searchParams.set("search_query", keyword)
-		return url.toString()
-	},
-}
+			const result = await evalCode({
+				currentTabUrl,
+				keyword,
+				code: filter.rawCode,
+			})
 
-const extensionX: SearchFilter = {
-	siteRegExp: "x.com",
-	urlGenerator: (keyword) => {
-		const url = new URL("https://x.com/search")
-		url.searchParams.set("q", keyword)
-		return url.toString()
-	},
-}
+			logger.debug("_executeFilter:result:", result)
 
-const findFilter = (
-	config: ExtensionConfig,
-	currentTabUrl: string,
-): SearchFilter => {
-	if (!config.common_filter_enabledExtensions) return fallbackFilter
+			if (result !== SkipFilterRequest) {
+				return result
+			}
+		}
+	}
 
-	const filters = [
-		config.common_filter_extension_YouTube && extensionYouTube,
-		config.common_filter_extension_X && extensionX,
-	].filter(Boolean) as SearchFilter[]
-	const filter = filters.find((f) =>
-		new RegExp(f.siteRegExp).test(currentTabUrl),
-	)
-	return filter || fallbackFilter
-}
-
-export const executeSearch = async (
-	config: ExtensionConfig,
-	currentTabUrl: string,
-	selectedText: string,
-) => {
-	if (!selectedText) return
-
-	const target = findFilter(config, currentTabUrl).urlGenerator(selectedText)
-
-	await searchMessaging.sendMessage("searchOnTab", { url: target })
-
-	console.info("executeSearch:", currentTabUrl, selectedText, target)
+	return null
 }

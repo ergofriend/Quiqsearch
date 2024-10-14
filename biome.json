@@ -6,7 +6,30 @@
 	"linter": {
 		"enabled": true,
 		"rules": {
-			"recommended": true
+			"recommended": true,
+			"style": {
+				"useImportType": "error"
+			},
+			"correctness": {
+				"noUnusedImports": "error"
+			},
+			"nursery": {
+				"noRestrictedImports": {
+					"level": "error",
+					"options": {
+						"paths": {
+							"@radix-ui/react-accordion": "Use components/ui instead of @radix-ui",
+							"@radix-ui/react-checkbox": "Use components/ui instead of @radix-ui",
+							"@radix-ui/react-label": "Use components/ui instead of @radix-ui",
+							"@radix-ui/react-radio": "Use components/ui instead of @radix-ui",
+							"@radix-ui/react-separator": "Use components/ui instead of @radix-ui",
+							"@radix-ui/react-slot": "Use components/ui instead of @radix-ui",
+							"@radix-ui/react-switch": "Use components/ui instead of @radix-ui",
+							"@radix-ui/react-tabs": "Use components/ui instead of @radix-ui"
+						}
+					}
+				}
+			}
 		}
 	},
 	"files": {

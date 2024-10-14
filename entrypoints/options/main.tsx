@@ -12,8 +12,6 @@ if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
 	document.documentElement.classList.add("dark")
 }
 
-document.title = browser.i18n.getMessage("detail_settings")
-
 ReactDOM.createRoot(target).render(
 	<React.StrictMode>
 		<App />

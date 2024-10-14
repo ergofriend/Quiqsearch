@@ -14,8 +14,14 @@
 	"option_description_3": {
 		"message": "を素早く検索"
 	},
+	"basic_settings": {
+		"message": "基本設定"
+	},
 	"detail_settings": {
 		"message": "詳細設定"
+	},
+	"detail_settings_sub": {
+		"message": "カスタムフィルター"
 	},
 	"extension_switch": {
 		"message": "拡張機能を有効にする"
@@ -23,14 +29,41 @@
 	"common_ignore_input": {
 		"message": "入力フィールドでは拡張機能を無効にする"
 	},
-	"common_filter_enable_extensions": {
-		"message": "特定のウェブサイトでカスタム検索を有効にする"
+	"common_about_custom_filter_1": {
+		"message": "この拡張機能はブラウザのデフォルトの検索エンジンを使用します。"
 	},
-	"common_filter_enable_youtube": {
-		"message": "YouTubeで内部検索を有効にする"
+	"common_about_custom_filter_2": {
+		"message": "検索エンジンを変更するには、詳細設定からカスタムフィルターを追加してください。"
 	},
-	"common_filter_enable_x": {
-		"message": "Xで内部検索を有効にする"
+	"common_sample_custom_filter_1": {
+		"message": "サンプル"
+	},
+	"common_sample_custom_filter_2": {
+		"message": "任意のサイトに対して、下記のような関数を用いて遷移先のパスを組み立てることができます。"
+	},
+	"common_delete_custom_filter_confirm": {
+		"message": "のフィルターを削除しますか？"
+	},
+	"common_add_youtube_custom_filter_button": {
+		"message": "YouTubeのフィルターを追加する"
+	},
+	"common_add_x_custom_filter_button": {
+		"message": "のフィルターを追加する"
+	},
+	"common_add_new_custom_filter_button": {
+		"message": "新しいフィルターを追加する"
+	},
+	"common_no_custom_filters": {
+		"message": "フィルターがありません。常にブラウザのデフォルトの検索エンジンが使われます。"
+	},
+	"common_has_custom_filters": {
+		"message": "上から順にフィルターが適応されます。いずれにも当てはまらなければ、ブラウザのデフォルトの検索エンジンが使われます。"
+	},
+	"common_about_custom_filters_regexp_1": {
+		"message": "内での遷移先をコントロールすることができます。"
+	},
+	"common_about_custom_filters_regexp_2": {
+		"message": "を指定した場合はすべてのサイトにマッチします"
 	},
 	"auto_mode_label": {
 		"message": "自動検索"
