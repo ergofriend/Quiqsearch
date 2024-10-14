@@ -52,19 +52,22 @@ type ExtensionConfig_v2 = {
 
 export const initialAutoDebounceMs = 1500
 
+const initialConfig = {
+	enabled: true,
+	common_ignoreInput: true,
+	custom_user_filters: [],
+	mode: "auto",
+	manual_shortcutKeys: "Ctrl + P",
+	auto_minTextLength: 3,
+	auto_maxTextLength: 50,
+	auto_debounceMs: 2000,
+} satisfies ExtensionConfig_v2
+
 export const extensionConfigState = defineItemWithKey<ExtensionConfig_v2>(
 	"sync:config",
 	{
-		fallback: {
-			enabled: true,
-			common_ignoreInput: true,
-			custom_user_filters: [],
-			mode: "auto",
-			manual_shortcutKeys: "Ctrl + P",
-			auto_minTextLength: 3,
-			auto_maxTextLength: 50,
-			auto_debounceMs: initialAutoDebounceMs,
-		},
+		fallback: initialConfig,
+		init: () => initialConfig,
 		version: 2,
 		migrations: {
 			2: (_config: ExtensionConfig_v1): ExtensionConfig_v2 => {
