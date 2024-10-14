@@ -1,6 +1,7 @@
 import { extensionConfigState } from "@/libs/storage"
 import { useStorageState } from "@/libs/useStorageState"
 
+import { browser } from "wxt/browser"
 import { InputNumber } from "../molecules/input-number"
 import { Label } from "../ui/label"
 

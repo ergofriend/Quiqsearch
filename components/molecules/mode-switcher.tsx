@@ -1,5 +1,7 @@
 import { type WxtStorageItemType, extensionConfigState } from "@/libs/storage"
 import { useStorageState } from "@/libs/useStorageState"
+import { useCallback } from "react"
+import { browser } from "wxt/browser"
 import { Label } from "../ui/label"
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group"
 

@@ -1,6 +1,7 @@
 import { extensionConfigState } from "@/libs/storage"
 import { useStorageState } from "@/libs/useStorageState"
 import { AnimatePresence, motion } from "framer-motion"
+import { browser } from "wxt/browser"
 import { ExtensionSwitch } from "../molecules/extension-switch"
 import { IgnoreInputToggle } from "../molecules/ignore-input-toggle"
 import { Card, CardContent } from "../ui/card"

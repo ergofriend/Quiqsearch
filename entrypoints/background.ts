@@ -1,5 +1,7 @@
 import { logger } from "@/libs/logger"
 import { searchMessaging } from "@/libs/messaging"
+import { browser } from "wxt/browser"
+import { defineBackground } from "wxt/sandbox"
 
 export default defineBackground({
 	type: "module",

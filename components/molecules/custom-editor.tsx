@@ -7,6 +7,7 @@ import { Expand, Minimize } from "lucide-react"
 import * as monaco from "monaco-editor"
 import editorWorker from "monaco-editor/esm/vs/editor/editor.worker?worker"
 import tsWorker from "monaco-editor/esm/vs/language/typescript/ts.worker?worker"
+import { useCallback, useRef, useState } from "react"
 
 self.MonacoEnvironment = {
 	getWorker(_, label) {
@@ -80,13 +81,16 @@ type Restriction = {
 
 const CoreEditor = (props: CoreEditorProps) => {
 	const editor = useRef<monaco.editor.IStandaloneCodeEditor | null>(null)
-	const handleEditorDidMount = useCallback<OnMount>((_editor, _monaco) => {
-		editor.current = _editor
-		const constrainedInstance = constrainedEditor(_monaco)
-		const model = _editor.getModel()
-		constrainedInstance.initializeIn(_editor)
-		constrainedInstance.addRestrictionsTo(model, [props.restriction])
-	}, [])
+	const handleEditorDidMount = useCallback<OnMount>(
+		(_editor, _monaco) => {
+			editor.current = _editor
+			const constrainedInstance = constrainedEditor(_monaco)
+			const model = _editor.getModel()
+			constrainedInstance.initializeIn(_editor)
+			constrainedInstance.addRestrictionsTo(model, [props.restriction])
+		},
+		[props.restriction],
+	)
 
 	return (
 		<Editor

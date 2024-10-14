@@ -1,7 +1,8 @@
-import type {
-	StorageItemKey,
-	WxtStorageItem,
-	WxtStorageItemOptions,
+import {
+	type StorageItemKey,
+	type WxtStorageItem,
+	type WxtStorageItemOptions,
+	storage,
 } from "wxt/storage"
 import { type Filter, defaultFilter } from "./filter"
 

@@ -3,6 +3,7 @@ import { AdvancedSettings } from "@/components/organisms/advanced-settings"
 import { CustomFilterConfig } from "@/components/organisms/custom-filter-config"
 import { Card, CardContent } from "@/components/ui/card"
 import { Cover } from "@/components/ui/cover"
+import { browser } from "wxt/browser"
 
 function App() {
 	return (
