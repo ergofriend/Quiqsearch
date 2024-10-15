@@ -82,7 +82,7 @@ export default {
 			},
 		},
 	},
-	darkMode: ["class", "class"],
+	darkMode: ["class"],
 	plugins: [
 		// rippleui,
 		require("tailwindcss-animate"),
