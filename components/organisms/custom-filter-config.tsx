@@ -26,7 +26,7 @@ export const CustomFilterConfig = () => {
 
 const PreviewFilterConfig = () => {
 	return (
-		<div className="flex flex-col w-full bg-destructive-foreground p-4">
+		<div className="flex flex-col w-full text-primary dark:text-primary-foreground bg-destructive-foreground p-4">
 			<div className="flex gap-2 w-full pb-2">
 				<Label>
 					{browser.i18n.getMessage("common_sample_custom_filter_1")}
@@ -140,7 +140,10 @@ const UserFilterConfig = () => {
 
 			<div className="flex flex-col gap-4">
 				{state.current.custom_user_filters.map((filter, i) => (
-					<div key={filter.id} className="w-full bg-destructive-foreground p-4">
+					<div
+						key={filter.id}
+						className="w-full text-primary dark:text-primary-foreground bg-destructive-foreground p-4"
+					>
 						<div className="flex gap-2">
 							<div className="flex flex-col gap-2 justify-center">
 								<Button
